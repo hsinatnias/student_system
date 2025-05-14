@@ -22,5 +22,8 @@ jobs:
           echo "Waiting for MySQL to be ready..."
           docker compose exec -T db bash -c "until mysqladmin ping -hlocalhost --silent; do sleep 1; done"
 
+      - name: Install PHP dependencies in container
+        run: docker compose exec -T app composer install
+        
       - name: Run PHPUnit Tests
         run: docker compose exec -T app ./vendor/bin/phpunit
