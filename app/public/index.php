@@ -1,5 +1,6 @@
 <?php
-require './../vendor/autoload.php';
+require '../../vendor/autoload.php';
+
 use  Home\Solid\Discounts\Discount;
 use Home\Solid\Discounts\SeniorDiscount;
 use Home\Solid\Discounts\StudentDiscount;

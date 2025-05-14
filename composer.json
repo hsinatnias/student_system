@@ -4,7 +4,7 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Home\\Solid\\": "src/"
+            "Home\\Solid\\": "app/src/"
         }
     },
     "authors": [
