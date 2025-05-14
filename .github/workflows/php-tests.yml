@@ -1,0 +1,26 @@
+name: Run PHPUnit Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker and Start Services
+        run: docker-compose up -d --build
+
+      - name: Wait for DB to Be Ready
+        run: |
+          echo "Waiting for MySQL to be ready..."
+          docker-compose exec -T db bash -c "until mysqladmin ping -hlocalhost --silent; do sleep 1; done"
+
+      - name: Run PHPUnit Tests
+        run: docker-compose exec -T app ./vendor/bin/phpunit

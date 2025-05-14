@@ -1,8 +1,14 @@
 FROM php:8.2-fpm
 
-# Install extensions
+# Install extensions and CA certificates
 RUN apt-get update && apt-get install -y \
-    libzip-dev zip unzip curl git \
+    libzip-dev \
+    zip \
+    unzip \
+    curl \
+    git \
+    ca-certificates \
+    && update-ca-certificates \
     && docker-php-ext-install pdo pdo_mysql zip
 
 # Install Composer

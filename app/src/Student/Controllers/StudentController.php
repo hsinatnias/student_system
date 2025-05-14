@@ -17,10 +17,11 @@ class StudentController{
         $activities = $this->activityService->getRecentActivities();
         $studentRepository = new StudentRepository();
         $data = $studentRepository->findById(1);
+        $allStudentData = $studentRepository->getAll();
 
         $student = Student::fromArray($data);
         echo "<pre>";
-        var_dump( $data);
+        var_dump( $allStudentData);
         echo "</pre>";
 
         

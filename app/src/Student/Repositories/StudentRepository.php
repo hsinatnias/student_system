@@ -5,7 +5,8 @@ use Home\Solid\Database\Connection;
 use PDO;
 
 
-class StudentRepository{
+class StudentRepository
+{
 
     private PDO $db;
 
@@ -13,7 +14,8 @@ class StudentRepository{
     {
         $this->db = (Connection::getConnection());
     }
-    public function findById(int $id): array{
+    public function findById(int $id): array
+    {
 
         $stmt = $this->db->prepare("SELECT * FROM students WHERE id = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -24,11 +26,17 @@ class StudentRepository{
         }
         return $student;
         // For demonstration purposes, returning a static array
-       
+
         // return [
         //     'id'=> $id,
         //     'name'=> 'John Doe',
         //     'email'=> 'john@example.com'
         // ];
+    }
+
+    public function getAll(): array
+    {
+        $stmt = $this->db->query("SELECT * FROM students");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
