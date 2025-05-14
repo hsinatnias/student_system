@@ -20,7 +20,7 @@ class StudentRepository{
         $stmt->execute();
         $student = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$student) {
-            throw new \Exception("Student not found");
+            throw new \Exception("Student not found!");
         }
         return $student;
         // For demonstration purposes, returning a static array

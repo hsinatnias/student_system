@@ -14,7 +14,7 @@ class Connection
                 $dsn = 'mysql:host=' . $_ENV['DB_HOST'] . 
                        ';port=' . $_ENV['DB_PORT'] . 
                        ';dbname=' . $_ENV['DB_NAME'];
-                       self::$pdo = new PDO($dsn, $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
+                       self::$pdo = new PDO($dsn, $_ENV['DB_USER'], $_ENV['DB_PASS']);
                        self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }catch (PDOException $e) {
                 die('Database connection error: ' . $e->getMessage());

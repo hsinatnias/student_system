@@ -20,7 +20,7 @@ class StudentController{
 
         $student = Student::fromArray($data);
         echo "<pre>";
-        var_dump( $activities);
+        var_dump( $data);
         echo "</pre>";
 
         
