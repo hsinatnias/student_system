@@ -4,6 +4,7 @@ namespace Home\Solid\Database;
 
 use PDO;
 use PDOException;
+use Dotenv\Dotenv;
 
 class Connection
 {
@@ -11,7 +12,7 @@ class Connection
     public static function getConnection(): PDO{
 
         if (!getenv('DB_HOST')) {
-            $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../../..'); // adjust path as needed
+            $dotenv = Dotenv::createImmutable(__DIR__ . '/../../..'); // adjust path as needed
             $dotenv->load();
         }
         $host = $_ENV['DB_HOST'] ?? getenv('DB_HOST');
