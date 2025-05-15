@@ -2,10 +2,11 @@
 
 namespace Home\Solid\Student\Repositories;
 use Home\Solid\Database\Connection;
+use Home\Solid\Student\Contracts\StudentRepositoryInterface;
 use PDO;
 
 
-class StudentRepository
+class StudentRepository implements StudentRepositoryInterface
 {
 
     private PDO $db;
@@ -18,20 +19,8 @@ class StudentRepository
     {
 
         $stmt = $this->db->prepare("SELECT * FROM students WHERE id = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        $student = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$student) {
-            throw new \Exception("Student not found!");
-        }
-        return $student;
-        // For demonstration purposes, returning a static array
-
-        // return [
-        //     'id'=> $id,
-        //     'name'=> 'John Doe',
-        //     'email'=> 'john@example.com'
-        // ];
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getAll(): array

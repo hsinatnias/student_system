@@ -2,26 +2,33 @@
 
 namespace Home\Solid\Student\Controllers;
 
+use Home\Solid\Student\Contracts\ActivityServiceInterface;
+use Home\Solid\Student\Contracts\StudentRepositoryInterface;
 use Home\Solid\Student\Models\Student;
 use Home\Solid\Student\Repositories\StudentRepository;
 use Home\Solid\Student\Services\ActivityService;
 
 class StudentController{
-    protected ActivityService $activityService;
+    private  ActivityServiceInterface $activityService;
+    private  StudentRepositoryInterface $studentRepository;
 
-    public function __construct(){
-        $this->activityService = new ActivityService();
+    public function __construct(
+        ActivityServiceInterface $activityService,
+        StudentRepositoryInterface $studentRepository
+    ){
+        $this->activityService = $activityService;
+        $this->studentRepository = $studentRepository;
     }
 
-    public function dashboard(){
+    public function dashboard(): void{
         $activities = $this->activityService->getRecentActivities();
-        $studentRepository = new StudentRepository();
-        $data = $studentRepository->findById(1);
-        $allStudentData = $studentRepository->getAll();
+        $studentData = $this->studentRepository->findById(1);
+        $allStudentData = $this->studentRepository->getAll();
 
-        $student = Student::fromArray($data);
-        echo "<pre>";
-        var_dump( $allStudentData);
+        echo "<h2>Dashboard</h2><pre>";
+        print_r($studentData);
+        print_r($activities);
+        print_r($allStudentData);
         echo "</pre>";
 
         

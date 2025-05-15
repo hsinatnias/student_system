@@ -2,12 +2,16 @@
 
 namespace Home\Solid\Student\Services;
 
-class ActivityService{
+use Home\Solid\Student\Contracts\ActivityServiceInterface;
+
+class ActivityService implements ActivityServiceInterface{
     public function getRecentActivities(): array{
         return [
-            'joined boot camp',
-            'Submitted project report',
-            'Participated in hackathon'
+            ['title' => 'Logged In'],
+            ['title' => 'Updated Profile'],
+            ['title' => 'Submitted Assignment'],
+            ['title' => 'Participated in Discussion'],
+            ['title' => 'Logged Out']
         ];
     }
 }
