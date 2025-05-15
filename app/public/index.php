@@ -1,6 +1,8 @@
 <?php
+use Dotenv\Dotenv;
 require '../../vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
+
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
 $dotenv->load();
 use Home\Solid\Student\Controllers\StudentController;
 

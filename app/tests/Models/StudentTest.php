@@ -29,5 +29,6 @@ class StudentTest extends TestCase{
         $this->assertSame(2, $student->id);
         $this->assertSame('anish', $student->name);
         $this->assertSame('anish@test.com', $student->email);
+        $this->assertStringContainsStringIgnoringCase('anish', $student->name);
     }
 }
