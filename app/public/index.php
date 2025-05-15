@@ -1,37 +1,49 @@
 <?php
 use Dotenv\Dotenv;
+use Home\Solid\Container\Container;
+use Home\Solid\Student\Contracts\ActivityServiceInterface;
+use Home\Solid\Student\Contracts\StudentRepositoryInterface;
+use Home\Solid\Student\Repositories\StudentRepository;
+use Home\Solid\Student\Services\ActivityService;
 require '../../vendor/autoload.php';
 
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
 $dotenv->load();
 use Home\Solid\Student\Controllers\StudentController;
 
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$uri = trim($uri, '/'); // Remove leading/trailing slashes
-$uri = $uri === '' ? [] : explode('/', $uri); // Convert to empty array if no segments
+$container = new Container();
 
-$controllerName = $uri[0] ?? 'home'; // Use first segment or default to 'home'
+$container->bind(ActivityServiceInterface::class, ActivityService::class);
+$container->bind(StudentRepositoryInterface::class, StudentRepository::class);
 
-$methodName = $uri[1] ?? 'index';   
-$controllerName = ucfirst($controllerName) . 'Controller';
+$uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+$segments = $uri === '' ? [] : explode('/', $uri);
+
+$controllerName = ucfirst($segments[0] ?? 'home') . 'Controller';
+$methodName = $segments[1] ?? 'index';
+
+$controllerClass = 'Home\\Solid\\Student\\Controllers\\' . $controllerName;
 
 
-$controllerClass = 'Home\\Solid\\Student\\Controllers\\' . ucfirst($controllerName) ;
+if (class_exists($controllerClass)) {
+    try {
+        $controller = $container->make($controllerClass);
 
-    if (class_exists($controllerClass)) {
-        $student = new $controllerClass();
-        if (method_exists($student, $methodName)) {
-            $student->$methodName();
+        if (method_exists($controller, $methodName)) {
+            $controller->$methodName();
         } else {
             echo "Method $methodName not found in controller $controllerClass.";
-
-            error_log("Method $methodName not found in controller $controllerClass.");
         }
-    } else {
-        http_response_code(404);
-        echo "Page not found.";
+
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo "Container error: " . $e->getMessage();
     }
 
+} else {
+    http_response_code(404);
+    echo "Page not found.";
+}
 
 
 // use  Home\Solid\Discounts\Discount;

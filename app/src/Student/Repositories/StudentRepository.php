@@ -13,7 +13,7 @@ class StudentRepository implements StudentRepositoryInterface
 
     public function __construct()
     {
-        $this->db = (Connection::getConnection());
+        $this->db = Connection::getConnection();
     }
     public function findById(int $id): array
     {
