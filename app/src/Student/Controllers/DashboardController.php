@@ -2,13 +2,14 @@
 
 namespace Home\Solid\Student\Controllers;
 
+use Home\Solid\Helpers\View\View;
 use Home\Solid\Student\Contracts\ActivityServiceInterface;
 use Home\Solid\Student\Contracts\StudentRepositoryInterface;
 use Home\Solid\Student\Models\Student;
 use Home\Solid\Student\Repositories\StudentRepository;
 use Home\Solid\Student\Services\ActivityService;
 
-class StudentController{
+class DashboardController{
     private  ActivityServiceInterface $activityService;
     private  StudentRepositoryInterface $studentRepository;
 
@@ -20,16 +21,17 @@ class StudentController{
         $this->studentRepository = $studentRepository;
     }
 
-    public function dashboard(): void{
+    public function index(): void{
         $activities = $this->activityService->getRecentActivities();
         $studentData = $this->studentRepository->findById(1);
         $allStudentData = $this->studentRepository->getAll();
 
-        echo "<h2>Dashboard</h2><pre>";
-        print_r($studentData);
-        print_r($activities);
-        print_r($allStudentData);
-        echo "</pre>";
+        // echo "<h2>Dashboard</h2><pre>";
+        // print_r($studentData);
+        // print_r($activities);
+        // print_r($allStudentData);
+        // echo "</pre>";
+        View::render('Student/index', ['students' => $allStudentData]);
 
         
     }
