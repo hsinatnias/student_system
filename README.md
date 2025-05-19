@@ -1,137 +1,137 @@
-# Student Management System (Modular PHP Project)
+# Student Management System — SOLID PHP + React + Docker
 
-A modular PHP application built from scratch with **SOLID principles**, **Dependency Injection**, **custom service container**, and **modular structure**. This project showcases a clean architecture approach for building scalable and testable PHP applications.
+A modular and testable **Student Management System** built with:
 
----
-
-## 🌟 Features
-
-- Custom-built PHP framework (no Laravel/CodeIgniter)
-- Follows **SOLID** design principles
-- Custom **PSR-4 autoloading** via Composer
-- Basic **Dependency Injection Container**
-- Modular folder structure
-- Environment configuration using **Dotenv**
-- MySQL support with PDO
-- Dockerized development environment
-- PHPUnit testing support
+* ✅ PHP (custom framework based on SOLID principles)
+* ✅ React (frontend)
+* ✅ Docker (isolated development environment)
+* ✅ PHPUnit (unit testing)
 
 ---
 
-## 🗂️ Project Structure
+## 🚀 Features
+
+### ✅ Backend (PHP)
+
+* Modular structure using PSR-4 autoloading
+* Follows SOLID principles
+* Custom dependency injection container
+* API routes (e.g., `/api/student`, `/api/student/dashboard`)
+* PDO for database interaction
+* Environment config via `.env`
+
+### ✅ Frontend (React)
+
+* React + React Router
+* Axios for HTTP requests to API
+* Home page fetching student data from backend
+
+### ✅ DevOps
+
+* Docker Compose setup for PHP + MySQL + Nginx + phpMyAdmin
+* Separate React development (`frontend/`) with build copied to `public/`
+* CI-ready structure (e.g., GitHub Actions)
+
+---
+
+## 🗂️ Folder Structure Overview
 
 ```
-project-root/
-│
+student_system/
 ├── app/
+│   ├── public/                # PHP entry point (index.php)
+│   ├── src/                  # Application source
+│   │   └── Student/          # Student module (Controllers, Models, etc.)
+│   └── tests/                # PHPUnit test cases
+├── docker/                   # Dockerfiles and nginx config
+│   ├── nginx/
+│   └── php/
+├── frontend/                 # React frontend (React Router + Axios)
 │   ├── src/
-│   │   ├── Container/               # Custom service container
-│   │   ├── Core/                    # Shared framework logic (e.g. routing)
-│   │   └── Modules/
-│   │       ├── Student/
-│   │       │   ├── Controllers/
-│   │       │   ├── Models/
-│   │       │   ├── Repositories/
-│   │       │   ├── Services/
-│   │       │   └── Contracts/
-│   │       └── ... (future modules: Academics, Administration etc.)
-│
-├── public/
-│   └── index.php                    # Front controller
-│
-├── tests/                           # PHPUnit tests
-│
-├── docker/                          # Docker configuration
-│   ├── php/
-│   └── nginx/
-│
-├── .env
-├── composer.json
-├── docker-compose.yml
-└── README.md
+│   ├── public/
+│   └── build/                # Production build
+├── public/                   # Served by Nginx (React + API entry)
+├── vendor/                   # Composer dependencies
+├── .env                      # Environment config (PHP)
+├── composer.json             # PSR-4 autoloading config
+├── docker-compose.yml        # Docker environment
+└── phpunit.xml               # PHPUnit config
 ```
 
 ---
 
-## ⚙️ Getting Started
+## ⚙️ Local Development Setup
 
-### 🐳 Run with Docker
+### 1. Clone and Start Docker
 
 ```bash
-docker compose up -d --build
+git clone <repo-url>
+cd student_system
+docker-compose up -d --build
 ```
 
-The application will be available at:  
-http://localhost:8080
-
-PHPMyAdmin:  
-http://localhost:8081  
-(MySQL username: `user`, password: `password`)
-
----
-
-## ✅ Requirements
-
-- Docker & Docker Compose
-- PHP 8.2+ (if running locally)
-- Composer
-
----
-
-## 🧪 Running Tests
+### 2. Install PHP Dependencies
 
 ```bash
-docker compose exec app ./vendor/bin/phpunit
+docker-compose exec app composer install
+```
+
+### 3. React Setup
+
+```bash
+cd frontend
+npm install
+npm run build
+cp -R build/* ../app/public/  # Copies built React app into PHP public folder
+```
+
+### 4. Access App
+
+* React frontend: [http://localhost:8080/](http://localhost:8080/)
+* API endpoint: [http://localhost:8080/api/student](http://localhost:8080/api/student)
+* phpMyAdmin: [http://localhost:8081/](http://localhost:8081/)
+
+---
+
+## 🔁 Architecture Diagram
+
+```
+       +---------------------+              +------------------+
+       |     React Frontend |  <-------->  |     API (PHP)    |
+       | (Served from Nginx)|              |   (index.php)    |
+       +---------------------+              +------------------+
+                 |                                  |
+                 v                                  v
+         /public/index.html                /public/index.php
+                                               |
+                                               v
+                                     Routes -> Controllers
+                                               |
+                                               v
+                                    Repositories -> Database
 ```
 
 ---
 
-## 💡 Principles Followed
+## ✅ Checklist Before Deployment
 
-- **Single Responsibility** – each class has one responsibility
-- **Open/Closed** – system can be extended without modifying existing code
-- **Liskov Substitution** – modules use abstractions
-- **Interface Segregation** – smaller, client-specific interfaces
-- **Dependency Inversion** – code depends on abstractions
-
----
-
-## 📌 Environment Variables
-
-Create a `.env` file in the root:
-
-```ini
-DB_DRIVER = MySQLi
-DB_HOST = db
-DB_PORT = 3306
-DB_NAME = app_db
-DB_USER = user
-DB_PASS = password
-```
+* [x] React build copied to `app/public`
+* [x] `.env` file with production DB credentials
+* [x] Docker containers run without error
+* [x] PHPUnit tests pass
+* [ ] Enable HTTPS in production Nginx config
+* [ ] CI pipeline (e.g., GitHub Actions) configured for tests
+* [ ] CORS config if API and frontend are separated
 
 ---
 
-## 🧱 Upcoming Features
+## 👥 Contributors
 
-- Module for Academics
-- Module for Administration
-- Authentication system
-- Middleware support
-- Full router layer
-- API support (REST/JSON)
-
----
-
-## 📚 License
-
-This project is open-source and free to use under the [MIT License](LICENSE).
-
-
-
+* Anish (Lead Developer)
 
 
 ---
 
-## 👨‍💻 Author
+## 📜 License
 
-Developed by [Anish V M]
+MIT
