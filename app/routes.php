@@ -1,21 +1,22 @@
 <?php
 
 return [
-    '/api/students' => [
-        'controller' => 'Student\\Controllers\\StudentController',
+    '/api/student' => [
+        'controller' => 'Student\\Controllers\\DashboardController',
         'method'     => 'index',
     ],
-    '/api/students/show' => [
+    
+    '/api/student/show' => [
         'controller' => 'Student\\Controllers\\StudentController',
         'method'     => 'show',
     ],
-    '/api/students/create' => [
+    '/api/student/create' => [
         'controller' => 'Student\\Controllers\\StudentController',
         'method'     => 'create',
     ],
-    '/api/students/update' => [
+    '/api/student/update' => [
         'controller' => 'Student\\Controllers\\StudentController',
         'method'     => 'update',
     ],
-    
+
 ];

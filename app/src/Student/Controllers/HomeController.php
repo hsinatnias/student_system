@@ -6,6 +6,10 @@ class HomeController
 {
     public function index()
     {
-        echo "Welcome to the Student Home Page!";
+        header('Content-Type: application/json');
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Hello from the StudentController API!'
+        ]);
     }
 }

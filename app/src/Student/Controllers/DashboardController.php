@@ -26,6 +26,10 @@ class DashboardController{
         $studentData = $this->studentRepository->findById(1);
         $allStudentData = $this->studentRepository->getAll();
 
+        header('Content-Type: application/json');
+        echo json_encode( $allStudentData);
+        exit;
+
         // echo "<h2>Dashboard</h2><pre>";
         // print_r($studentData);
         // print_r($activities);
