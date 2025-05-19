@@ -1,6 +1,14 @@
 <?php
 
 return [
+    '/api/auth/login' => [
+        'controller' => 'Auth\\Controllers\\AuthController',
+        'method' => 'login',
+    ],
+    '/api/auth/protected' => [
+        'controller' => 'Auth\\Controllers\\AuthController',
+        'method' => 'protectedRoute',
+    ],
     '/api/student' => [
         'controller' => 'Student\\Controllers\\DashboardController',
         'method'     => 'index',
