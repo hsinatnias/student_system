@@ -5,9 +5,7 @@ namespace Home\Solid\Student\Controllers;
 
 use Home\Solid\Student\Contracts\ActivityServiceInterface;
 use Home\Solid\Student\Contracts\StudentRepositoryInterface;
-use Home\Solid\Student\Services\CreateStudentService;
 use Home\Solid\Core\BaseController;
-use Home\Solid\Student\Services\UpdateStudentService;
 
 class StudentController extends BaseController{
     private  ActivityServiceInterface $activityService;
@@ -86,9 +84,9 @@ class StudentController extends BaseController{
     {
         $user = $this->authenticate();
 
-        $id = (int) ($_GET['id'] ?? 0);
-
-        if (!$id) {
+        $input = json_decode(file_get_contents("php://input"), true);
+        $id = $input['id'];
+       if (!isset($input['id'])) {
             $this->jsonResponse(['error' => 'ID is required.'], 400);
             return;
         }

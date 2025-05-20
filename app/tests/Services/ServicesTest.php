@@ -18,6 +18,6 @@ class ServicesTest extends TestCase
 
         // Assert that the returned activities are as expected
         $this->assertIsArray($activities);
-        $this->assertCount(3, $activities);
+        $this->assertCount(5, $activities);
     }
 }
