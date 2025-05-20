@@ -1,6 +1,7 @@
 // frontend/src/StudentList.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function StudentList() {
   const [students, setStudents] = useState([]);
@@ -45,7 +46,11 @@ export default function StudentList() {
         {students.map(student => (
           <li key={student.id} className="list-group-item d-flex justify-content-between align-items-center">
             {student.name} - {student.email}
-            <button className="btn btn-danger btn-sm" onClick={() => deleteStudent(student.id)}>Delete</button>
+            <div>
+              <Link to={`/students/edit/${student.id}`} className="btn btn-sm btn-warning me-2">Edit</Link>
+              <button onClick={() => deleteStudent(student.id)} className="btn btn-sm btn-danger">Delete</button>
+            </div>
+            
           </li>
         ))}
       </ul>

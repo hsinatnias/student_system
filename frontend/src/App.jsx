@@ -7,6 +7,7 @@ import AddStudent from './AddStudent';
 import StudentList from './StudentList';
 import ProtectedRoute from './ProtectedRoute';
 import Navbar from './Navbar';
+import EditStudent from './EditStudent';
 
 export default function App() {
   return (
@@ -42,6 +43,13 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route 
+        path="/students/edit/:id" 
+        element={
+      <ProtectedRoute>
+        <EditStudent />
+        </ProtectedRoute>
+  } />
       </Routes>
     </Router>
   );
