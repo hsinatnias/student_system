@@ -10,10 +10,9 @@ return [
         'method' => 'protectedRoute',
     ],
     '/api/student' => [
-        'controller' => 'Student\\Controllers\\DashboardController',
+        'controller' => 'Student\\Controllers\\StudentController',
         'method'     => 'index',
     ],
-    
     '/api/student/show' => [
         'controller' => 'Student\\Controllers\\StudentController',
         'method'     => 'show',
@@ -25,6 +24,10 @@ return [
     '/api/student/update' => [
         'controller' => 'Student\\Controllers\\StudentController',
         'method'     => 'update',
+    ],
+    '/api/student/delete' => [
+        'controller' => 'Student\\Controllers\\StudentController',
+        'method'     => 'delete',
     ],
 
 ];

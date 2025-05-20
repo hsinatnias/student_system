@@ -3,9 +3,14 @@ import axios from 'axios';
 
 export default function Home() {
   const [data, setData] = useState(null);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    axios.get('/api/student')
+    axios.get('/api/student',{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then(response => setData(response.data))
       .catch(error => console.error(error));
   }, []);
