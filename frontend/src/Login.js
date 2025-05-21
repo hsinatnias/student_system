@@ -1,34 +1,80 @@
-import React, {useState} from "react";
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from './contexts/AuthContext';
 
-export default function Login(){
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const navigate = useNavigate();
+export default function Login() {
+  const { login } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        try{
-            const response = await axios.post('/api/auth/login', { email, password });
-            localStorage.setItem('token', response.data.token);
-            navigate('/dashboard');
-        }catch(error){
-            alert('Login failed: ' + error.response?.data?.error || error.message);
-        }
-    };
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setErrorMsg("");
 
-    return (
-        <div>
-            <h2>Login</h2>
+    try {
+      const response = await axios.post("/api/auth/login", { email, password });
+      login(response.data.token);
+      navigate("/dashboard");
+    } catch (error) {
+      const msg =
+        error.response?.data?.error || "Login failed. Please try again.";
+      setErrorMsg(msg);
+    }
+  };
+
+  return (
+    <div
+      className="container d-flex justify-content-center align-items-center"
+      style={{ minHeight: "80vh" }}
+    >
+      <div className="col-md-5">
+        <div className="card shadow">
+          <div className="card-body">
+            <h3 className="mb-4 text-center">Login</h3>
+
+            {errorMsg && <div className="alert alert-danger">{errorMsg}</div>}
+
             <form onSubmit={handleLogin}>
-                <input type="email" placeholder="E-Mail" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                <br />
-                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                <br />
-                <button type="submit">Login</button>
+              <div className="mb-3">
+                <label htmlFor="email" className="form-label">
+                  Email address
+                </label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  placeholder="Enter email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
 
+              <div className="mb-3">
+                <label htmlFor="password" className="form-label">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <button type="submit" className="btn btn-primary w-100">
+                Login
+              </button>
             </form>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 }
