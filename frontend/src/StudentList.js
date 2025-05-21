@@ -47,6 +47,9 @@ export default function StudentList() {
           <li key={student.id} className="list-group-item d-flex justify-content-between align-items-center">
             {student.name} - {student.email}
             <div>
+              <Link to={`/student/${student.id}`} className="btn btn-sm btn-info me-2">
+                <i className="bi bi-eye"></i> View
+              </Link>
               <Link to={`/students/edit/${student.id}`} className="btn btn-sm btn-warning me-2">Edit</Link>
               <button onClick={() => deleteStudent(student.id)} className="btn btn-sm btn-danger">Delete</button>
             </div>

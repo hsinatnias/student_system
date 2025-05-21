@@ -1,5 +1,6 @@
 // frontend/src/AddStudent.js
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
 export default function AddStudent() {
