@@ -1,6 +1,10 @@
 <?php
 
 return [
+    '/api/auth/me' => [
+        'controller' => 'Auth\\Controllers\\AuthController',
+        'method'     => 'me',
+    ],
     '/api/auth/login' => [
         'controller' => 'Auth\\Controllers\\AuthController',
         'method' => 'login',

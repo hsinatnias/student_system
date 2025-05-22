@@ -19,19 +19,16 @@ class AuthController extends BaseController{
     }
 
     public function register(){
-        $data = json_decode(file_get_contents('php://input'), true);
-        $name = $data['name'] ?? '';
-        $email = $data['email'] ?? '';
-        $password = $data['password'] ?? '';
+        $data = json_decode(file_get_contents('php://input'), true);       
 
-        $role = 'student';
+        $data['role'] = 'student';
 
-        if($this->auth->findByEmail($email)){            
+        if($this->auth->findByEmail($data['email'])){            
             $this->jsonResponse(['error' => 'Email already exists'], 409);           
         }
 
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $user = $this->auth->createUser($name, $email, $hashedPassword, $role);
+        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        $user = $this->auth->createUser($data);
         $this->jsonResponse(['message'=> 'User registered successfully', 'user' => $user]);         
     }
 
@@ -45,9 +42,7 @@ class AuthController extends BaseController{
         
         if(!$user || !password_verify($password, $user['password'])){
 
-            http_response_code(401);
-            echo json_encode(['error' => 'Invalid Credentials']);
-            return;
+            $this->jsonResponse(['error' => 'Invalid Credentials'], 401);
         }
 
             $payload = [                
@@ -59,53 +54,31 @@ class AuthController extends BaseController{
             ];
             
             $jwt    =   JWT::encode($payload, $this->secret, 'HS256');
-            echo json_encode(['token' => $jwt]);
-            return;     
+            $this->jsonResponse(['token' => $jwt]);
 
     }
 
     public function adminOnlyRoute(){
         $decoded = $this->authenticate();
         if($decoded->role !== 'admin'){
-            http_response_code(403);
-            echo json_encode(['error'=> 'Admin only']);
-            return;
+            $this->jsonResponse(['error'=> 'Admin only'], 403);            
         }
-        echo json_encode(['message' => 'Welcome, Admin']);
+        $this->jsonResponse(['message' => 'Welcome, Admin']);
     }
-
-    private function authenticate()
+    
+    public function me()
     {
-        $authHeader = null;
-        if (function_exists('getallheaders')) {
-            $headers = getallheaders();
-            if (isset($headers['Authorization'])) {
-                $authHeader = $headers['Authorization'];
-            } elseif (isset($headers['authorization'])) {
-                $authHeader = $headers['authorization'];
-            }
-        }
+        $decoded = $this->authenticate();
+        $user = $this->auth->findById($decoded->userID);
 
-
-        if (!$authHeader && isset($_SERVER['HTTP_AUTHORIZATION'])) {
-            $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
-        }
-        
-        if (!$authHeader) {
-            http_response_code(401);
-            echo json_encode(['error' => 'No token found in headers']);
+        if (!$user) {
+            $this->jsonResponse(['error' => 'User not found'], 404);
             return;
         }
 
-        $token = str_replace('Bearer ', '', $authHeader);
-
-        try {
-            return JWT::decode($token, new Key($this->secret, 'HS256'));
-        } catch (\Exception $e) {
-            http_response_code(401);
-            echo json_encode(['error' => 'Unauthorized', 'debug' => $e->getMessage()]);
-            exit;
-        }
+        $this->jsonResponse(['user' => $user]);
     }
+
+    
     
 }
