@@ -9,6 +9,10 @@ return [
         'controller' => 'Auth\\Controllers\\AuthController',
         'method' => 'protectedRoute',
     ],
+    '/api/auth/register' => [
+        'controller' => 'Auth\\Controllers\\AuthController',
+        'method' => 'register',
+    ],
     '/api/student' => [
         'controller' => 'Student\\Controllers\\StudentController',
         'method'     => 'index',

@@ -19,4 +19,17 @@ class AuthRepository implements AuthRepositoryInterface{
         return $user ?: null;
     }
 
+    public function createUser($name, $email, $hashedPassword, $role){
+        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role, created_at) VALUES (:name, :email, :password, :role, :created_at)");
+        $stmt->execute([
+            ':name' => $name,
+            ':email' => $email,
+            
+        ]);
+
+        $id = (int) $this->db->lastInsertId();
+        return $this->findById($id);
+
+    }
+
 }

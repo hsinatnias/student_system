@@ -11,20 +11,22 @@ class BaseController
     {
         $secret = $_ENV['JWT_SECRET'] ?? 'secret123';
         $authHeader = null;
-
-        // Get Authorization header from various sources
         if (function_exists('getallheaders')) {
             $headers = getallheaders();
-            $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? null;
+            if (isset($headers['Authorization'])) {
+                $authHeader = $headers['Authorization'];
+            } elseif (isset($headers['authorization'])) {
+                $authHeader = $headers['authorization'];
+            }
         }
+
 
         if (!$authHeader && isset($_SERVER['HTTP_AUTHORIZATION'])) {
             $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
         }
-
+        
         if (!$authHeader) {
-            $this->jsonResponse(['error' => 'Authorization token not provided'], 401);
-            exit;
+            $this->jsonResponse(['error' => 'No token found in headers'], 401);            
         }
 
         $token = str_replace('Bearer ', '', $authHeader);

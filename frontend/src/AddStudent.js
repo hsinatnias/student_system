@@ -4,46 +4,63 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
 export default function AddStudent() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem('token');
+  const {
+    register,
+    handleSubmit,
+    formState: {errors},
+    reset
+  } = useForm();
 
-    try {
-      const res = await axios.post('/api/student/create', {
-        name, email
-      }, {
+  const navigate = useNavigate();
+
+  const onSubmit = async () => {
+    try{
+      const token = localStorage.getItem('token');
+      await axios.post('/api/student/create', data, {
         headers: {
           Authorization: `Bearer ${token}`
-        }
+        },
       });
-
-      setStatus('Student created successfully!');
-      setName('');
-      setEmail('');
-    } catch (err) {
-      console.error(err);
-      setStatus('Failed to create student');
+      alert("Student created successfully");
+      reset();
+      navigate('/students');
+    }catch(error){
+      alert("Error creating user");
+      console.error(error);
     }
   };
-
   return (
-    <div className="container mt-5">
+    <div className="container mt-4">
       <h2>Add Student</h2>
-      {status && <div className="alert alert-info">{status}</div>}
-      <form onSubmit={handleSubmit}>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-3">
+
         <div className="mb-3">
-          <label>Name:</label>
-          <input className="form-control" value={name} onChange={(e) => setName(e.target.value)} required />
+          <label className="form-label">Name</label>
+          <input
+            {...register('name', { required: 'Name is required' })}
+            className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+          />
+          {errors.name && <div className="invalid-feedback">{errors.name.message}</div>}
         </div>
+
         <div className="mb-3">
-          <label>Email:</label>
-          <input className="form-control" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <label className="form-label">Email</label>
+          <input
+            {...register('email', {
+              required: 'Email is required',
+              pattern: {
+                value: /^\S+@\S+$/i,
+                message: 'Invalid email address'
+              }
+            })}
+            className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+          />
+          {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
         </div>
-        <button className="btn btn-primary">Add Student</button>
+
+        <button type="submit" className="btn btn-primary">Add Student</button>
       </form>
     </div>
   );
