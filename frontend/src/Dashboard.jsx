@@ -6,7 +6,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log('Stored token:', token); 
+    
 
     axios.get('/api/auth/protected', {
       headers: {

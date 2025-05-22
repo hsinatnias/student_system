@@ -1,6 +1,7 @@
 <?php
 
 use Dotenv\Dotenv;
+use Home\Solid\Auth\Providers\AuthServiceProvider;
 use Home\Solid\Container\Container;
 use Home\Solid\Providers\StudentServiceProvider;
 
@@ -11,5 +12,6 @@ $dotenv->load();
 
 $container = new Container();
 StudentServiceProvider::register($container);
+AuthServiceProvider::register($container);
 
 return $container;
