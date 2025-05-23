@@ -1,5 +1,6 @@
 // frontend/src/AddStudent.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
@@ -14,7 +15,7 @@ export default function AddStudent() {
 
   const navigate = useNavigate();
 
-  const onSubmit = async () => {
+  const onSubmit = async (data) => {
     try{
       const token = localStorage.getItem('token');
       await axios.post('/api/student/create', data, {
