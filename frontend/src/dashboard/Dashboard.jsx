@@ -8,13 +8,14 @@ export default function Dashboard() {
     const token = localStorage.getItem('token');
     
 
-    axios.get('/api/auth/protected', {
+    axios.get('/api/auth/me', {
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
     .then(response => {
       setMessage("Welcome!");
+      console.log(response);
     })
     .catch(error => {
       console.error('API error:', error);

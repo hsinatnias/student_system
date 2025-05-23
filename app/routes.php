@@ -8,11 +8,7 @@ return [
     '/api/auth/login' => [
         'controller' => 'Auth\\Controllers\\AuthController',
         'method' => 'login',
-    ],
-    '/api/auth/protected' => [
-        'controller' => 'Auth\\Controllers\\AuthController',
-        'method' => 'protectedRoute',
-    ],
+    ],    
     '/api/auth/register' => [
         'controller' => 'Auth\\Controllers\\AuthController',
         'method' => 'register',

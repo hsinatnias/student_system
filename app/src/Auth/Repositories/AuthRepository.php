@@ -20,18 +20,17 @@ class AuthRepository implements AuthRepositoryInterface{
         return $user ?: null;
     }
 
-    public function createUser($data){
+    public function createUser($data): ?array{
         $name = $data['name'] ?? '';
         $email = $data['email'];
         $password = $data['password'];
         $role = $data['role'];
-        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role, created_at) VALUES (:name, :email, :password, :role, :created_at)");
+        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role) VALUES (:name, :email, :password, :role)");
         $stmt->execute([
             ':name' => $name,
             ':email' => $email,
             ':password' => $password,
-            ':role' => $role,
-            ':created_at' => now()            
+            ':role' => $role          
         ]);
 
         $id = (int) $this->db->lastInsertId();
@@ -40,7 +39,7 @@ class AuthRepository implements AuthRepositoryInterface{
     }
     public function findById(int $id): array
     {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt = $this->db->prepare("SELECT id, email, role  FROM users WHERE id = :id");
         $stmt->execute([':id' => $id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$result) {

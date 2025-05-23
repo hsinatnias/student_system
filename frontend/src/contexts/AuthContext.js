@@ -6,6 +6,7 @@ export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
   const login = (token) => {
+    console.log('Token '+ token);
     localStorage.setItem('token', token);
     setIsLoggedIn(true);
   };
