@@ -47,6 +47,11 @@ export default function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link" to="/profile">
+                  Profile
+                </Link>
+              </li>
+              <li className="nav-item">
                 <button
                   className="btn btn-sm btn-outline-light ms-3"
                   onClick={handleLogout}
@@ -54,11 +59,7 @@ export default function Navbar() {
                   Logout
                 </button>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/profile">
-                  Profile
-                </Link>
-              </li>
+              
             </>
           )}
 

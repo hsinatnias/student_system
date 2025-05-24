@@ -39,7 +39,7 @@ class AuthRepository implements AuthRepositoryInterface{
     }
     public function findById(int $id): array
     {
-        $stmt = $this->db->prepare("SELECT id, email, role  FROM users WHERE id = :id");
+        $stmt = $this->db->prepare("SELECT id, first_name, last_name, email, role  FROM users WHERE id = :id");
         $stmt->execute([':id' => $id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$result) {

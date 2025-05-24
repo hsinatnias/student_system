@@ -2,13 +2,13 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./dashboard/Dashboard";
 import Home from "./Home";
-import Login from "./Login";
-import AddStudent from "./AddStudent";
-import StudentList from "./StudentList";
+import Login from "./auth/Login";
+import AddStudent from "./student/AddStudent";
+import StudentList from "./student/StudentList";
 import ProtectedRoute from "./ProtectedRoute";
 import Navbar from "./Navbar";
 import EditStudent from "./EditStudent";
-import StudentDetails from "./StudentDetails";
+import StudentDetails from "./student/StudentDetails";
 import UserProfile from "./user/UserProfile";
 
 export default function App() {
