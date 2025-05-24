@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
-export default function AddStudent() {
-  const navigate = useNavigate();
+export default function EditStudent() {
   const [courses, setCourses] = useState([]);
   const [departments, setDepartments] = useState([]);
 
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     first_name: '',
     middle_name: '',
@@ -22,6 +23,11 @@ export default function AddStudent() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    axios.get(`/api/student/show?id=${id}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => setForm(res.data))
+      .catch(err => console.error(err));
     axios.get('/api/courses', { headers: { Authorization: `Bearer ${token}` } })
       .then(res => setCourses(res.data))
       .catch(err => console.error('Course load error', err));
@@ -29,29 +35,24 @@ export default function AddStudent() {
     axios.get('/api/departments', { headers: { Authorization: `Bearer ${token}` } })
       .then(res => setDepartments(res.data))
       .catch(err => console.error('Department load error', err));
-  }, []);
+  }, [id]);
 
   const handleChange = e => {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = e => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    try {
-      await axios.post('/api/student/create', form, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      navigate('/students');
-    } catch (err) {
-      console.error('Failed to create student', err);
-    }
+    axios.post(`/api/student/update?id=${id}`, form, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(() => navigate('/students'))
+      .catch(err => console.error(err));
   };
 
   return (
+
     <div className="container mt-5">
       <h2>Add Student</h2>
       <form onSubmit={handleSubmit}>
@@ -108,7 +109,6 @@ export default function AddStudent() {
             name="password"
             type="password"
             className="form-control"
-            value={form.password}
             onChange={handleChange}
             required
           />
@@ -185,6 +185,11 @@ export default function AddStudent() {
               ))}
             </select>
           </div>
+          <input
+            type="hidden"
+            name="enrollment_number"
+            value={form.enrollment_number}
+          />
         </div>
 
         <div className="mt-4">
@@ -192,6 +197,5 @@ export default function AddStudent() {
         </div>
       </form>
     </div>
-
   );
 }

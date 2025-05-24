@@ -20,7 +20,15 @@ class StudentRepository implements StudentRepositoryInterface
     public function findById(int $id): array
     {
         $stmt = $this->db->prepare(
-            "SELECT u.id as user_id, u.name, u.email, s.*
+            "SELECT u.id as user_id, 
+            u.first_name,
+            u.middle_name,
+            u.last_name,
+            u.email,
+            u.role,
+            u.created_at,
+
+             s.*
              FROM users u
              JOIN students s ON u.id = s.user_id
              WHERE s.id = :id"
@@ -36,7 +44,7 @@ class StudentRepository implements StudentRepositoryInterface
     public function getAll(): array
     {
         $stmt = $this->db->query(
-            "SELECT u.id as user_id, u.name, u.email, s.*
+            "SELECT u.id as user_id, u.*, s.*
              FROM users u
              JOIN students s ON u.id = s.user_id"
         );
@@ -48,36 +56,41 @@ class StudentRepository implements StudentRepositoryInterface
         $this->db->beginTransaction();
 
         try {
-            // Insert into users table
-            $userStmt = $this->db->prepare("INSERT INTO users (name, email, password, role) VALUES (:name, :email, :password, 'student')");
-            $userStmt->execute([
-                ':name' => $data['name'],
+            $stmt = $this->db->prepare("
+                INSERT INTO users (email, password, role, first_name, middle_name, last_name)
+                VALUES (:email, :password, 'student', :first_name, :middle_name, :last_name)
+            ");
+            $stmt->execute([
                 ':email' => $data['email'],
-                ':password' => $data['password'] ?? password_hash('password123', PASSWORD_DEFAULT) // default/fake password if not provided
+                ':password' => password_hash($data['password'], PASSWORD_DEFAULT),
+                ':first_name' => $data['first_name'],
+                ':middle_name' => $data['middle_name'] ?? null,
+                ':last_name' => $data['last_name'],
             ]);
-
             $userId = (int) $this->db->lastInsertId();
 
-            // Insert into students table
-            $studentStmt = $this->db->prepare(
-                "INSERT INTO students (user_id, enrollment_number, course, year, department, date_of_birth, gender)
-                 VALUES (:user_id, :enrollment_number, :course, :year, :department, :dob, :gender)"
-            );
+            // 2. Compose enrollment number
+            $enrollmentNumber = $userId . $data['year'];
 
-            $studentStmt->execute([
+            // 3. Insert into students
+            $stmt = $this->db->prepare("
+                INSERT INTO students (user_id, enrollment_number, year, date_of_birth, gender, course_id, department_id, status)
+                VALUES (:user_id, :enrollment_number, :year, :dob, :gender, :course_id, :department_id, 'pending')
+            ");
+            $stmt->execute([
                 ':user_id' => $userId,
-                ':enrollment_number' => $data['enrollment_number'],
-                ':course' => $data['course'] ?? null,
-                ':year' => $data['year'] ?? null,
-                ':department' => $data['department'] ?? null,
-                ':dob' => $data['date_of_birth'] ?? null,
-                ':gender' => $data['gender'] ?? null
+                ':enrollment_number' => $enrollmentNumber,
+                ':year' => $data['year'],
+                ':dob' => $data['date_of_birth'],
+                ':gender' => $data['gender'],
+                ':course_id' => $data['course_id'],
+                ':department_id' => $data['department_id'],
             ]);
 
-            $studentId = (int) $this->db->lastInsertId();
-            $this->db->commit();
-            return $this->findById($studentId);
 
+
+            $this->db->commit();
+            return $this->findById($userId);
         } catch (Exception $e) {
             $this->db->rollBack();
             throw $e;
@@ -93,27 +106,37 @@ class StudentRepository implements StudentRepositoryInterface
         $this->db->beginTransaction();
         try {
             // Update user table
-            $this->db->prepare("UPDATE users SET name = :name, email = :email WHERE id = :id")
+            $this->db->prepare("UPDATE users 
+            SET 
+            first_name = :fname,
+            middle_name = :mname,
+            last_name = :lname,
+            role= 'student',
+            password =:password,
+             email = :email WHERE id = :id")
                 ->execute([
-                    ':name' => $data['name'],
+                    ':fname' => $data['first_name'],
+                    ':mname' => $data['middle_name'] ?? '',
+                    ':lname' => $data['last_name'],
+                    ':password' => password_hash($data['password'], PASSWORD_DEFAULT),
                     ':email' => $data['email'],
                     ':id' => $userId
                 ]);
 
             // Update student table
             $this->db->prepare(
-                "UPDATE students SET enrollment_number = :enrollment_number, course = :course,
-                 year = :year, department = :department, date_of_birth = :dob, gender = :gender
-                 WHERE id = :id"
+                "UPDATE students SET enrollment_number = :enrollment_number, course_id = :course_id,
+                 year = :year, department_id = :department_id, date_of_birth = :dob, gender = :gender
+                 WHERE user_id = :id"
             )->execute([
-                ':enrollment_number' => $data['enrollment_number'],
-                ':course' => $data['course'] ?? null,
-                ':year' => $data['year'] ?? null,
-                ':department' => $data['department'] ?? null,
-                ':dob' => $data['date_of_birth'] ?? null,
-                ':gender' => $data['gender'] ?? null,
-                ':id' => $id
-            ]);
+                        ':enrollment_number' => $data['enrollment_number'],
+                        ':course_id' => $data['course_id'] ?? null,
+                        ':year' => $data['year'] ?? null,
+                        ':department_id' => $data['department_id'] ?? null,
+                        ':dob' => $data['date_of_birth'] ?? null,
+                        ':gender' => $data['gender'] ?? null,
+                        ':id' => $id
+                    ]);
 
             $this->db->commit();
             return $this->findById($id);

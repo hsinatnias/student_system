@@ -4,7 +4,7 @@ import { useAuth } from "./contexts/AuthContext";
 
 export default function Navbar() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { isLoggedIn, logout } = useAuth();
+  const { user, isLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -31,6 +31,9 @@ export default function Navbar() {
         <ul className="navbar-nav ms-auto">
           {isLoggedIn && (
             <>
+            {user.role === 'admin' && 
+            <Link to="/admin">Admin Panel</Link>
+            }
               <li className="nav-item">
                 <Link className="nav-link" to="/dashboard">
                   Dashboard

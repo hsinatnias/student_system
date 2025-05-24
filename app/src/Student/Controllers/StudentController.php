@@ -3,19 +3,30 @@
 namespace Home\Solid\Student\Controllers;
 
 
-use Home\Solid\Student\Contracts\ActivityServiceInterface;
+
 use Home\Solid\Student\Contracts\StudentRepositoryInterface;
 use Home\Solid\Core\BaseController;
+use Home\Solid\Student\Services\CreateStudentService;
+use Home\Solid\Student\Services\DeleteStudentService;
+use Home\Solid\Student\Services\UpdateStudentService;
+use Exception;
 
 class StudentController extends BaseController{
-    private  ActivityServiceInterface $activityService;
-    private  StudentRepositoryInterface $studentRepository;
+    private CreateStudentService $createService;
+    private UpdateStudentService $updateService;
+    private DeleteStudentService $deleteService;
+    private StudentRepositoryInterface $studentRepository;
 
     public function __construct(
-        ActivityServiceInterface $activityService,
+        CreateStudentService $createService,
+        UpdateStudentService $updateService,
+        DeleteStudentService $deleteService,    
         StudentRepositoryInterface $studentRepository
+        
     ){
-        $this->activityService = $activityService;
+        $this->createService = $createService;
+        $this->updateService = $updateService;
+        $this->deleteService = $deleteService;
         $this->studentRepository = $studentRepository;
     }
     
@@ -40,7 +51,7 @@ class StudentController extends BaseController{
         try {
             $student = $this->studentRepository->findById($id);
             $this->jsonResponse($student);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->jsonResponse(['error' => $e->getMessage()], 404);
         }
     }
@@ -48,34 +59,29 @@ class StudentController extends BaseController{
     public function create()
     {
         $user = $this->authenticate();
-
-        $input = json_decode(file_get_contents("php://input"), true);
-
-        if (!isset($input['name'], $input['email'])) {
-            $this->jsonResponse(['error' => 'Name and Email are required.'], 400);
-            return;
+        $data = $this->getJsonInput();        
+        try{
+            $student = $this->createService->handle($data);
+            $this->jsonResponse($student, 201);
+        }catch(Exception $e){
+            $this->jsonResponse(['error'=> $e->getMessage()], 400);
         }
-
-        $student = $this->studentRepository->create($input);
-        $this->jsonResponse($student, 201);
+        
     }
 
     public function update()
     {
         $user = $this->authenticate();
-
-        $input = json_decode(file_get_contents("php://input"), true);
+        $data = $this->getJsonInput();
+        
         $id = (int) ($_GET['id'] ?? 0);
+        
 
-        if (!$id || !isset($input['name'], $input['email'])) {
-            $this->jsonResponse(['error' => 'ID, Name and Email are required.'], 400);
-            return;
-        }
 
         try {
-            $student = $this->studentRepository->update($id, $input);
+            $student = $this->updateService->handle($id, $data);
             $this->jsonResponse($student);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->jsonResponse(['error' => $e->getMessage()], 404);
         }
     }
@@ -83,17 +89,14 @@ class StudentController extends BaseController{
     public function delete()
     {
         $user = $this->authenticate();
+        $id = (int) ($_GET['id'] ?? 0);
 
-        $input = json_decode(file_get_contents("php://input"), true);
-        $id = $input['id'];
-       if (!isset($input['id'])) {
-            $this->jsonResponse(['error' => 'ID is required.'], 400);
-            return;
+        try{
+            $deleted = $this->deleteService->handle($id);
+            $this->jsonResponse(['deleted' => $deleted]);
+        }catch(Exception $e){
+            $this->jsonResponse(['error' => $e->getMessage()], 400);
         }
-
-        $deleted = $this->studentRepository->delete($id);
-
-        $this->jsonResponse(['deleted' => $deleted]);
     }
 
 

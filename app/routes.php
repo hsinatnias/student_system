@@ -34,4 +34,13 @@ return [
         'method'     => 'delete',
     ],
 
+    '/api/courses' => [
+        'controller' => 'Student\\Controllers\\CourseController',
+        'method'     => 'index',
+    ],
+    '/api/departments' => [
+        'controller' => 'Student\\Controllers\\DepartmentController',
+        'method'     => 'index',
+    ],
+
 ];

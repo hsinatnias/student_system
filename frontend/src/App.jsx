@@ -7,9 +7,10 @@ import AddStudent from "./student/AddStudent";
 import StudentList from "./student/StudentList";
 import ProtectedRoute from "./ProtectedRoute";
 import Navbar from "./Navbar";
-import EditStudent from "./EditStudent";
+import EditStudent from "./student/EditStudent";
 import StudentDetails from "./student/StudentDetails";
 import UserProfile from "./user/UserProfile";
+import AdminDashboard from "./dashboard/AdminDashboard";
 
 export default function App() {
   return (
@@ -46,7 +47,7 @@ export default function App() {
           }
         />
         <Route
-          path="/students/edit/:id"
+          path="/student/edit/:id"
           element={
             <ProtectedRoute>
               <EditStudent />
@@ -66,6 +67,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <UserProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard/>
             </ProtectedRoute>
           }
         />
