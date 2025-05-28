@@ -156,4 +156,21 @@ class StudentRepository implements StudentRepositoryInterface
         $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
         return $stmt->execute([':id' => $userId]);
     }
+
+    public function updateStatus(int $id, string $status): bool
+    {
+        $student = $this->findById($id);
+        $userID = $student['user_id'];
+        $this->db->beginTransaction();
+        try {
+
+            $stmt = $this->db->prepare("UPDATE students SET status = :status WHERE user_id= :user_id");
+            $stmt->execute([':status' => $status, ':user_id' => $userID]);
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
+    }
 }

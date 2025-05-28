@@ -4,6 +4,14 @@ import { Link } from 'react-router-dom';
 
 export default function StudentList() {
   const [students, setStudents] = useState([]);
+  const getBadgeClass = (status) => {
+    switch (status) {
+      case 'approved': return 'bg-success';
+      case 'pending': return 'bg-secondary';
+      case 'denied': return 'bg-danger';
+      default: return 'bg-dark';
+    }
+  };
 
   const fetchStudents = async () => {
     const token = localStorage.getItem('token');
@@ -33,6 +41,21 @@ export default function StudentList() {
     }
   };
 
+  const updateStatus = async (id, status) => {
+    const token = localStorage.getItem('token');
+    try {
+      await axios.post(`/api/student/updatestatus?id=${id}`, { status }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      fetchStudents(); // refresh the list
+    } catch (err) {
+      console.error('Failed to update status', err);
+    }
+  };
+
+
   useEffect(() => {
     fetchStudents();
   }, []);
@@ -43,17 +66,47 @@ export default function StudentList() {
       {students.length === 0 && <p>No students found</p>}
       <ul className="list-group">
         {students.map(student => (
-          <li key={student.id} className="list-group-item d-flex justify-content-between align-items-center">
-            {student.name} - {student.email}
+          <li
+            key={student.id}
+            className="list-group-item d-flex justify-content-between align-items-center"
+          >
             <div>
-              <Link to={`/student/${student.id}`} className="btn btn-sm btn-info me-2">
-                <i className="bi bi-eye"></i> View
-              </Link>
-              <Link to={`/student/edit/${student.id}`} className="btn btn-sm btn-warning me-2">Edit</Link>
-              <button onClick={() => deleteStudent(student.id)} className="btn btn-sm btn-danger">Delete</button>
+              <strong>{student.first_name} {student.last_name}</strong><br />
+              <small>{student.email}</small>
             </div>
-            
+
+            <div className="d-flex align-items-center gap-2">
+              <div className="dropdown me-2">
+                <button
+                  className={`btn btn-sm dropdown-toggle ${getBadgeClass(student.status)}`}
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  {student.status}
+                </button>
+                <ul className="dropdown-menu">
+                  <li><button className="dropdown-item" onClick={() => updateStatus(student.id, 'approved')}>Approve</button></li>
+                  <li><button className="dropdown-item" onClick={() => updateStatus(student.id, 'pending')}>Set Pending</button></li>
+                  <li><button className="dropdown-item" onClick={() => updateStatus(student.id, 'denied')}>Deny</button></li>
+                </ul>
+              </div>
+
+              <Link to={`/student/${student.id}`} className="btn btn-sm btn-info">
+                <i className="bi bi-eye"></i>
+              </Link>
+              <Link to={`/student/edit/${student.id}`} className="btn btn-sm btn-warning">
+                Edit
+              </Link>
+              <button
+                onClick={() => deleteStudent(student.id)}
+                className="btn btn-sm btn-danger"
+              >
+                Delete
+              </button>
+            </div>
           </li>
+
         ))}
       </ul>
     </div>

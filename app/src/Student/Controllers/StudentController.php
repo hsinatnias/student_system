@@ -10,34 +10,34 @@ use Home\Solid\Student\Services\CreateStudentService;
 use Home\Solid\Student\Services\DeleteStudentService;
 use Home\Solid\Student\Services\UpdateStudentService;
 use Exception;
+use Home\Solid\Student\Services\UpdateStudentStatusService;
 
 class StudentController extends BaseController{
     private CreateStudentService $createService;
     private UpdateStudentService $updateService;
     private DeleteStudentService $deleteService;
+    private UpdateStudentStatusService $updateStudentStatusService;
     private StudentRepositoryInterface $studentRepository;
+    
 
     public function __construct(
         CreateStudentService $createService,
         UpdateStudentService $updateService,
         DeleteStudentService $deleteService,    
+        UpdateStudentStatusService $updateStatus,
         StudentRepositoryInterface $studentRepository
         
     ){
         $this->createService = $createService;
         $this->updateService = $updateService;
         $this->deleteService = $deleteService;
+        $this->updateStudentStatusService = $updateStatus;
         $this->studentRepository = $studentRepository;
     }
     
     public function index()
     {
-        $user = $this->authenticate();
-        
-        if($user->role !== 'admin'){
-            $this->jsonResponse(['error' => 'Access denied'], 403);
-            return;
-        }
+        $this->authorize("admin");
         
         $students = $this->studentRepository->getAll();
         $this->jsonResponse($students);
@@ -85,8 +85,6 @@ class StudentController extends BaseController{
         $data = $this->getJsonInput();
         
         $id = (int) ($_GET['id'] ?? 0);
-        
-
 
         try {
             $student = $this->updateService->handle($id, $data);
@@ -107,6 +105,23 @@ class StudentController extends BaseController{
         }catch(Exception $e){
             $this->jsonResponse(['error' => $e->getMessage()], 400);
         }
+    }
+
+    public function updateStatus(){
+        $this->authorize("admin");
+
+        $status = $this->getJsonInput()["status"] ??"";
+        
+        $id = (int) ($_GET['id'] ?? 0);
+
+        try {
+            $updatedStatus = $this->updateStudentStatusService->handle($id, $status);
+            $this->jsonResponse(['status'=> $updatedStatus]);
+        } catch (Exception $e) {
+            $this->jsonResponse(['error' => $e->getMessage()], 404);
+        }
+
+
     }
 
 

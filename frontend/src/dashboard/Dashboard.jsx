@@ -1,32 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '../contexts/AuthContext';
+import { Navigate } from 'react-router-dom';
+import AdminDashboard from './AdminDashboard';
+import StudentDashboard from './StudentDashboard';
 
 export default function Dashboard() {
-  const [message, setMessage] = useState('Loading...');
+  const {user} = useAuth();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    
+  if(!user) return <Navigate to="/login" />;
 
-    axios.get('/api/auth/me', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    .then(response => {
-      setMessage("Welcome!");
-      
-    })
-    .catch(error => {
-      console.error('API error:', error);
-      setMessage('Access denied');
-    });
-  }, []);
+  if(user.role === 'admin') return <AdminDashboard/>;
+  if(user.role === 'student') return <StudentDashboard/>;
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>{message}</p>
+    <div className="container mt-5">
+      <h2>Unauthorized</h2>
+      <p>Your role is not authorized to access this page.</p>
     </div>
   );
 }

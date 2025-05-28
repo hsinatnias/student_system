@@ -11,6 +11,7 @@ import EditStudent from "./student/EditStudent";
 import StudentDetails from "./student/StudentDetails";
 import UserProfile from "./user/UserProfile";
 import AdminDashboard from "./dashboard/AdminDashboard";
+import StudentDashboard from "./dashboard/StudentDashboard";
 
 function AppRoutes(){
   const location = useLocation();
@@ -76,6 +77,14 @@ function AppRoutes(){
           element={
             <ProtectedRoute>
               <AdminDashboard/>
+            </ProtectedRoute>
+          }
+        />
+        <Route 
+          path="/studentdashboard"
+          element={
+            <ProtectedRoute>
+              <StudentDashboard/>
             </ProtectedRoute>
           }
         />

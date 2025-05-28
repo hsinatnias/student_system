@@ -10,6 +10,7 @@ use Home\Solid\Student\Repositories\StudentRepository;
 use Home\Solid\Student\Services\CreateStudentService;
 use Home\Solid\Student\Services\DeleteStudentService;
 use Home\Solid\Student\Services\UpdateStudentService;
+use Home\Solid\Student\Services\UpdateStudentStatusService;
 use PDO;
 
 class StudentServiceProvider implements ServiceProviderInterface{
@@ -18,6 +19,7 @@ class StudentServiceProvider implements ServiceProviderInterface{
         $container->bind(CreateStudentService::class, CreateStudentService::class);
         $container->bind(UpdateStudentService::class, UpdateStudentService::class);
         $container->bind(DeleteStudentService::class, DeleteStudentService::class);
+        $container->bind(UpdateStudentStatusService::class, UpdateStudentStatusService::class);
         $container->bind(StudentRepositoryInterface::class, StudentRepository::class);
     }
 }

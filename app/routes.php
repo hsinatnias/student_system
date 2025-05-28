@@ -33,6 +33,10 @@ return [
         'controller' => 'Student\\Controllers\\StudentController',
         'method'     => 'delete',
     ],
+    '/api/student/updatestatus' => [
+        'controller' => 'Student\\Controllers\\StudentController',
+        'method'     => 'updateStatus',
+    ],
 
     '/api/courses' => [
         'controller' => 'Student\\Controllers\\CourseController',
