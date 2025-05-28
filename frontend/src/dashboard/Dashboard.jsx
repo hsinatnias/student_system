@@ -15,7 +15,7 @@ export default function Dashboard() {
     })
     .then(response => {
       setMessage("Welcome!");
-      console.log(response);
+      
     })
     .catch(error => {
       console.error('API error:', error);

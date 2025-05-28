@@ -34,6 +34,11 @@ class StudentController extends BaseController{
     {
         $user = $this->authenticate();
         
+        if($user->role !== 'admin'){
+            $this->jsonResponse(['error' => 'Access denied'], 403);
+            return;
+        }
+        
         $students = $this->studentRepository->getAll();
         $this->jsonResponse($students);
     }
@@ -45,6 +50,11 @@ class StudentController extends BaseController{
         $id = (int) ($_GET['id'] ?? 0);
         if (!$id) {
             $this->jsonResponse(['error' => 'Missing ID'], 400);
+            return;
+        }
+
+        if($user->role === 'student' && $user->userID !== $id){
+            $this->jsonResponse(['error' => 'Access denied'], 403);
             return;
         }
 

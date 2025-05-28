@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "./contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Navbar() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { user, isLoggedIn, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -29,11 +29,12 @@ export default function Navbar() {
 
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav ms-auto">
-          {isLoggedIn && (
+          {isAuthenticated && user.role === 'admin' && (
             <>
-            {user.role === 'admin' && 
-            <Link to="/admin">Admin Panel</Link>
-            }
+
+              <Link to="/admin">Admin Panel</Link>
+
+
               <li className="nav-item">
                 <Link className="nav-link" to="/dashboard">
                   Dashboard
@@ -49,6 +50,11 @@ export default function Navbar() {
                   Add Student
                 </Link>
               </li>
+
+            </>
+          )}
+          {isAuthenticated && (
+            <>
               <li className="nav-item">
                 <Link className="nav-link" to="/profile">
                   Profile
@@ -62,11 +68,11 @@ export default function Navbar() {
                   Logout
                 </button>
               </li>
-              
             </>
           )}
 
-          {!isLoggedIn && (
+
+          {!isAuthenticated && (
             <li className="nav-item">
               <Link className="btn btn-sm btn-outline-light ms-3" to="/login">
                 Login

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAuth } from './contexts/AuthContext';
 
 export default function Home() {
-   const { isLoggedIn, logout } = useAuth();
+   const { isAuthenticated, logout } = useAuth();
    const[user, setUser] = useState('');
    
     

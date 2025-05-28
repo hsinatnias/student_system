@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: May 24, 2025 at 10:05 AM
+-- Generation Time: May 24, 2025 at 08:45 PM
 -- Server version: 8.0.42
 -- PHP Version: 8.2.27
 
@@ -32,6 +32,15 @@ CREATE TABLE `courses` (
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `courses`
+--
+
+INSERT INTO `courses` (`id`, `name`) VALUES
+(1, 'Mechanical Engineering'),
+(2, 'Computer Science'),
+(3, 'Chemical Engineering');
+
 -- --------------------------------------------------------
 
 --
@@ -42,6 +51,14 @@ CREATE TABLE `departments` (
   `id` int NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `departments`
+--
+
+INSERT INTO `departments` (`id`, `name`) VALUES
+(1, 'Computer Science'),
+(2, 'Civil Engineering');
 
 -- --------------------------------------------------------
 
@@ -75,6 +92,13 @@ CREATE TABLE `students` (
   `department_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`id`, `user_id`, `enrollment_number`, `year`, `date_of_birth`, `gender`, `status`, `course_id`, `department_id`) VALUES
+(3, 4, '42024', 2024, '1985-06-06', 'male', 'pending', 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -97,7 +121,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `role`, `created_at`, `first_name`, `middle_name`, `last_name`) VALUES
-(1, 'admin@test.com', '$2y$10$J3T5e.rSgVuJXiHzrcYrGuUIsqSHzWrTRtLaLGktWynx2TK.10Ivq', 'admin', '2025-05-23 06:06:57', 'John', NULL, 'Keen');
+(1, 'admin@test.com', '$2y$10$J3T5e.rSgVuJXiHzrcYrGuUIsqSHzWrTRtLaLGktWynx2TK.10Ivq', 'admin', '2025-05-23 06:06:57', 'John', NULL, 'Keen'),
+(4, 'anish@test.com', '$2y$10$MSXxVApOMVHI1EcMGryysO5jsX0SNFGph8FvvWMNogaunekRXM81m', 'student', '2025-05-24 11:49:28', 'Anishm', '', 'Mathewm');
 
 --
 -- Indexes for dumped tables
@@ -148,13 +173,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `faculty`
@@ -166,13 +191,13 @@ ALTER TABLE `faculty`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
