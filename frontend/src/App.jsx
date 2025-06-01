@@ -12,6 +12,7 @@ import StudentDetails from "./student/StudentDetails";
 import UserProfile from "./user/UserProfile";
 import AdminDashboard from "./dashboard/AdminDashboard";
 import StudentDashboard from "./dashboard/StudentDashboard";
+import UnAuthorized from "./layout/UnAuthorized";
 
 function AppRoutes(){
   const location = useLocation();
@@ -21,6 +22,7 @@ function AppRoutes(){
     <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/unauthorized" element={<UnAuthorized />} />
 
         <Route
           path="/dashboard"

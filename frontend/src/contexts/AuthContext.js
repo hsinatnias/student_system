@@ -6,6 +6,7 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [user, setUser] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const login = (token) => {
     console.log('Token '+ token);
@@ -13,18 +14,25 @@ export function AuthProvider({ children }) {
     const decoded = decodeJWT(token);
     setUser(decoded);
     setToken(token)
+    setLoading(false);
   };
 
   const logout = () => {
     localStorage.removeItem('token');
     setToken(null);
     setUser(null);
+    setLoading(false);
   };
   useEffect(() => {    
     if(token){      
         const decoded = decodeJWT(token);
-         setUser(decoded);      
+        if(decoded){
+          setUser(decoded);      
+        }else{
+          logout();
+        }
     }
+    setLoading(false);
   },[token]);
 
   const decodeJWT = (jwt) => {
@@ -44,7 +52,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, isAuthenticated: !!token, login, logout }}>
+    <AuthContext.Provider value={{ token, user, isAuthenticated: !!token, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

@@ -32,9 +32,6 @@ export default function Navbar() {
           {isAuthenticated && user.role === 'admin' && (
             <>
 
-              <Link to="/admin">Admin Panel</Link>
-
-
               <li className="nav-item">
                 <Link className="nav-link" to="/dashboard">
                   Dashboard
@@ -55,6 +52,11 @@ export default function Navbar() {
           )}
           {isAuthenticated && (
             <>
+            <li className="nav-item">
+                <Link className="nav-link" to="/dashboard">
+                  Dashboard
+                </Link>
+              </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/profile">
                   Profile

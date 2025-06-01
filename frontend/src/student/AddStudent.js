@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import Dashboard from '../dashboard/Dashboard';
 
 export default function AddStudent() {
   const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
   const [departments, setDepartments] = useState([]);
+  const {user} =useAuth();
 
   const [form, setForm] = useState({
     first_name: '',
@@ -19,6 +22,8 @@ export default function AddStudent() {
     course_id: '',
     department_id: ''
   });
+
+ 
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -50,6 +55,10 @@ export default function AddStudent() {
       console.error('Failed to create student', err);
     }
   };
+
+   if(user.role !== 'admin'){
+    return <Navigate to="/unauthorized" />
+  }
 
   return (
     <div className="container mt-5">

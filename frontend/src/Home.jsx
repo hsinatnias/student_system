@@ -3,25 +3,9 @@ import axios from 'axios';
 import { useAuth } from './contexts/AuthContext';
 
 export default function Home() {
-   const { isAuthenticated, logout } = useAuth();
-   const[user, setUser] = useState('');
+   const { user } = useAuth();
    
-    
-    useEffect(() => {
-      const token = localStorage.getItem('token');
-      axios.get('/api/auth/me', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    .then(response => {
-      setUser(response.data.user);
-    })
-    .catch(err => {
-      console.error('Error fetching user profile:', err);
-      
-    });
-    }, []);
+   
   return (
     <div>
       <h1>Home Page</h1>
