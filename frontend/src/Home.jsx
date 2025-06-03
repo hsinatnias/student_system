@@ -18,7 +18,7 @@ export default function Home() {
       )}
       {!user && (
         <>
-          Welcome guest! Please register or login.
+          Welcome guest! Please <a href='/register'>register</a> or <a href='/login'>login</a>.
         </>
       )}
       

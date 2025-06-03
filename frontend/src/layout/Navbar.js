@@ -9,7 +9,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -52,7 +52,7 @@ export default function Navbar() {
           )}
           {isAuthenticated && (
             <>
-            <li className="nav-item">
+              <li className="nav-item">
                 <Link className="nav-link" to="/dashboard">
                   Dashboard
                 </Link>
@@ -75,11 +75,19 @@ export default function Navbar() {
 
 
           {!isAuthenticated && (
-            <li className="nav-item">
-              <Link className="btn btn-sm btn-outline-light ms-3" to="/login">
-                Login
-              </Link>
-            </li>
+            <>
+              <li className="nav-item">
+                <Link className="btn btn-sm btn-outline-light ms-3" to="/register">
+                  Register
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="btn btn-sm btn-outline-light ms-3" to="/login">
+                  Login
+                </Link>
+              </li>
+            </>
+
           )}
         </ul>
       </div>

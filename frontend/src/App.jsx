@@ -13,6 +13,7 @@ import UserProfile from "./user/UserProfile";
 import AdminDashboard from "./dashboard/AdminDashboard";
 import StudentDashboard from "./dashboard/StudentDashboard";
 import UnAuthorized from "./layout/UnAuthorized";
+import Register from "./auth/Register";
 
 function AppRoutes(){
   const location = useLocation();
@@ -22,6 +23,7 @@ function AppRoutes(){
     <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/unauthorized" element={<UnAuthorized />} />
 
         <Route

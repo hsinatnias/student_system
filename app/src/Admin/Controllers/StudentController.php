@@ -32,14 +32,7 @@ class StudentController extends BaseController{
         $this->studentRepository = $studentRepository;
     }
 
-    /**
-     * method to show admin panel
-     *
-     * @return void
-     */
-    public function index(){
-        //show admin panel
-    }
+   
 
     /**
      * method to create a new student
