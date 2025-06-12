@@ -82,7 +82,7 @@ docker-compose exec app composer install
 cd frontend
 npm install
 npm run build
-cp -R build/* ../app/public/  # Copies built React app into PHP public folder
+cp -R build/* ../public/  # Copies built React app into PHP public folder
 ```
 
 ### 4. Access App
@@ -115,7 +115,7 @@ cp -R build/* ../app/public/  # Copies built React app into PHP public folder
 
 ## ✅ Checklist Before Deployment
 
-* [x] React build copied to `app/public`
+* [x] React build copied to `public`
 * [x] `.env` file with production DB credentials
 * [x] Docker containers run without error
 * [x] PHPUnit tests pass
@@ -123,6 +123,13 @@ cp -R build/* ../app/public/  # Copies built React app into PHP public folder
 * [ ] CI pipeline (e.g., GitHub Actions) configured for tests
 * [ ] CORS config if API and frontend are separated
 
+---
+## ✅ Work In Progress
+
+* [ ] Admin dashboard
+* [ ] Faculty dashboard
+* [ ] Course and Faculty Management modules
+* [ ] PHPUnit Tests for newly added API module
 ---
 
 ## 👥 Contributors

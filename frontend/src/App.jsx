@@ -19,7 +19,7 @@ function AppRoutes(){
   const location = useLocation();
   return(
     <>
-    {location.pathname !== "/login" && <Navbar/>}
+    <Navbar/>
     <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
