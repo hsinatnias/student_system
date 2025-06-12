@@ -27,7 +27,7 @@ class AuthController extends BaseController{
             $this->jsonResponse(['error' => 'Email already exists'], 409);           
         }
 
-        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        
         $user = $this->auth->createUser($data);
         $this->jsonResponse(['message'=> 'User registered successfully', 'user' => $user]);         
     }

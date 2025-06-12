@@ -1,77 +1,51 @@
 <?php
 
-namespace Home\Solid\Student\Controllers;
+namespace Home\Solid\Admin\Controllers;
 
-
-
-use Home\Solid\Student\Contracts\StudentRepositoryInterface;
-use Home\Solid\Core\BaseController;
-use Home\Solid\Student\Services\CreateStudentService;
-use Home\Solid\Student\Services\DeleteStudentService;
-use Home\Solid\Student\Services\UpdateStudentService;
 use Exception;
-use Home\Solid\Student\Services\UpdateStudentStatusService;
+use Home\Solid\Admin\Contracts\RepositoryInterface;
+use Home\Solid\admin\Services\Student\UpdateStudentStatusService;
+use Home\Solid\Core\BaseController;
+use Home\Solid\Admin\Services\Student\CreateStudentService;
+use Home\Solid\Admin\Services\Student\DeleteStudentService;
+use Home\Solid\Admin\Services\Student\UpdateStudentService;
 
 class StudentController extends BaseController{
-    private CreateStudentService $createService;
-    private UpdateStudentService $updateService;
-    private DeleteStudentService $deleteService;
+
+    private CreateStudentService $createStudentService;
+    private UpdateStudentService $updateStudentService;
+    private DeleteStudentService $deleteStudentService;
     private UpdateStudentStatusService $updateStudentStatusService;
-    private StudentRepositoryInterface $studentRepository;
-    
+    private RepositoryInterface $studentRepository;
 
     public function __construct(
-        CreateStudentService $createService,
-        UpdateStudentService $updateService,
-        DeleteStudentService $deleteService,    
-        UpdateStudentStatusService $updateStatus,
-        StudentRepositoryInterface $studentRepository
-        
-    ){
-        $this->createService = $createService;
-        $this->updateService = $updateService;
-        $this->deleteService = $deleteService;
-        $this->updateStudentStatusService = $updateStatus;
+        CreateStudentService $createStudent,
+        UpdateStudentService $updateStudent,
+        DeleteStudentService $deleteStudent,
+        UpdateStudentStatusService $updateStudentStatus,
+        RepositoryInterface $studentRepository
+        ){
+        $this->createStudentService = $createStudent;
+        $this->updateStudentService = $updateStudent;
+        $this->deleteStudentService = $deleteStudent;
+        $this->updateStudentStatusService = $updateStudentStatus;
         $this->studentRepository = $studentRepository;
     }
-    
-    public function index()
-    {
+
+   
+
+    /**
+     * method to create a new student
+     *
+     * @return void
+     */
+    public function createStudent(){
+
         $this->authorize("admin");
-        
-        $students = $this->studentRepository->getAll();
-        $this->jsonResponse($students);
-    }
+        $data = $this->getJsonInput();
 
-    public function show()
-    {
-        $user = $this->authenticate();
-
-        $id = (int) ($_GET['id'] ?? 0);
-        if (!$id) {
-            $this->jsonResponse(['error' => 'Missing ID'], 400);
-            return;
-        }
-
-        if($user->role === 'student' && $user->userID !== $id){
-            $this->jsonResponse(['error' => 'Access denied'], 403);
-            return;
-        }
-
-        try {
-            $student = $this->studentRepository->findById($id);
-            $this->jsonResponse($student);
-        } catch (Exception $e) {
-            $this->jsonResponse(['error' => $e->getMessage()], 404);
-        }
-    }
-
-    public function create()
-    {
-        $user = $this->authenticate();
-        $data = $this->getJsonInput();        
         try{
-            $student = $this->createService->handle($data);
+            $student = $this->createStudentService->handle($data);
             $this->jsonResponse($student, 201);
         }catch(Exception $e){
             $this->jsonResponse(['error'=> $e->getMessage()], 400);
@@ -79,28 +53,55 @@ class StudentController extends BaseController{
         
     }
 
-    public function update()
-    {
+    public function findAllStudents(){
+
+         $this->authorize("admin");
+        
+        $students = $this->studentRepository->getAll();
+        $this->jsonResponse($students);
+
+    }
+
+    public function findStudentById(int $id){
+
+        $user = $this->authenticate();
+
+        $id = (int) ($_GET['id'] ?? 0);
+        if (!$id) {
+            $this->jsonResponse(['error' => 'Missing ID'], 400);
+            return;
+        }
+        try {
+            $student = $this->studentRepository->findById($id);
+            $this->jsonResponse($student);
+        } catch (Exception $e) {
+            $this->jsonResponse(['error' => $e->getMessage()], 404);
+        }
+
+    }
+
+    public function updateStudent(){
+
         $user = $this->authenticate();
         $data = $this->getJsonInput();
         
         $id = (int) ($_GET['id'] ?? 0);
 
         try {
-            $student = $this->updateService->handle($id, $data);
+            $student = $this->updateStudentService->handle($id, $data);
             $this->jsonResponse($student);
         } catch (Exception $e) {
             $this->jsonResponse(['error' => $e->getMessage()], 404);
         }
-    }
 
-    public function delete()
-    {
+    }
+    public function deleteStudent(int $id){
+
         $user = $this->authenticate();
         $id = (int) ($_GET['id'] ?? 0);
 
         try{
-            $deleted = $this->deleteService->handle($id);
+            $deleted = $this->deleteStudentService->handle($id);
             $this->jsonResponse(['deleted' => $deleted]);
         }catch(Exception $e){
             $this->jsonResponse(['error' => $e->getMessage()], 400);
@@ -123,6 +124,5 @@ class StudentController extends BaseController{
 
 
     }
-
-
+    
 }

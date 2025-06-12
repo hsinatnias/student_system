@@ -18,12 +18,14 @@ export default function StudentDetails() {
   }, [id]);
 
   if (!student) return <p>Loading...</p>;
+  console.log(student);
 
   return (
     <div className="container mt-5">
       <h2>Student Details</h2>
       <p><strong>ID:</strong> {student.id}</p>
-      <p><strong>Name:</strong> {student.name}</p>
+      <p><strong>First Name:</strong> {student.first_name}</p>
+      <p><strong>Last Name:</strong> {student.last_name}</p>
       <p><strong>Email:</strong> {student.email}</p>
       <Link to="/students" className="btn btn-secondary mt-3">Back to List</Link>
     </div>

@@ -53,4 +53,12 @@ class BaseController
 
         return is_array($data) ? $data : [];
     }
+
+    protected function authorize(string $requiredRole): void {
+        $user = $this->authenticate();
+        if ($user->role !== $requiredRole) {
+            $this->jsonResponse(['error' => 'Forbidden'], 403);
+            exit;
+        }
+    }
 }

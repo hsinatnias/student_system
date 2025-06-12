@@ -8,11 +8,7 @@ return [
     '/api/auth/login' => [
         'controller' => 'Auth\\Controllers\\AuthController',
         'method' => 'login',
-    ],
-    '/api/auth/protected' => [
-        'controller' => 'Auth\\Controllers\\AuthController',
-        'method' => 'protectedRoute',
-    ],
+    ],    
     '/api/auth/register' => [
         'controller' => 'Auth\\Controllers\\AuthController',
         'method' => 'register',
@@ -36,6 +32,19 @@ return [
     '/api/student/delete' => [
         'controller' => 'Student\\Controllers\\StudentController',
         'method'     => 'delete',
+    ],
+    '/api/student/updatestatus' => [
+        'controller' => 'Student\\Controllers\\StudentController',
+        'method'     => 'updateStatus',
+    ],
+
+    '/api/courses' => [
+        'controller' => 'Student\\Controllers\\CourseController',
+        'method'     => 'index',
+    ],
+    '/api/departments' => [
+        'controller' => 'Student\\Controllers\\DepartmentController',
+        'method'     => 'index',
     ],
 
 ];

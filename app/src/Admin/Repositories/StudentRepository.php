@@ -1,14 +1,14 @@
 <?php
 
-namespace Home\Solid\Student\Repositories;
+namespace Home\Solid\Admin\Repositories;
 
 use Home\Solid\Database\Connection;
-use Home\Solid\Student\Contracts\StudentRepositoryInterface;
+use Home\Solid\Admin\Contracts\RepositoryInterface;
 use PDO;
 use Exception;
 
 
-class StudentRepository implements StudentRepositoryInterface
+class StudentRepository implements RepositoryInterface
 {
     private PDO $db;
 
