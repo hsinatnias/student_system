@@ -1,5 +1,5 @@
 # Student Management System — SOLID PHP + React + Docker
-![PHP Tests](https://github.com/hsinatnias/student_system/actions/workflows/php-tests.yaml/badge.svg)
+[![Run PHPUnit Tests](https://github.com/hsinatnias/student_system/actions/workflows/php-tests.yml/badge.svg)](https://github.com/hsinatnias/student_system/actions/workflows/php-tests.yml)
 
 A modular and testable **Student Management System** built with:
 
