@@ -44,6 +44,7 @@ class BaseController
         http_response_code($status);
         header('Content-Type: application/json');
         echo json_encode($data);
+        exit;
     }
 
     protected function getJsonInput(): array

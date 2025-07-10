@@ -1,4 +1,5 @@
 # Student Management System — SOLID PHP + React + Docker
+![PHP Tests](https://github.com/hsinatnias/student_system/actions/workflows/php-tests.yaml/badge.svg)
 
 A modular and testable **Student Management System** built with:
 
@@ -120,7 +121,7 @@ cp -R build/* ../public/  # Copies built React app into PHP public folder
 * [x] Docker containers run without error
 * [x] PHPUnit tests pass
 * [ ] Enable HTTPS in production Nginx config
-* [ ] CI pipeline (e.g., GitHub Actions) configured for tests
+* [x] CI pipeline (e.g., GitHub Actions) configured for tests
 * [ ] CORS config if API and frontend are separated
 
 ---

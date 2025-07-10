@@ -52,9 +52,18 @@ services:
     networks:
       - appnet
 
+  node:
+    image: node:20
+    container_name: node_frontend
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    command: sh -c "npm install && npm run build"
+    networks:
+      - appnet
+
 volumes:
   db_data:
 
 networks:
   appnet:
-  

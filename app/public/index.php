@@ -28,5 +28,9 @@ if (array_key_exists($uri, $routes)) {
     exit;
 }
 
-// Allow React frontend to handle other routes
-require __DIR__ . '/../../public/index.html';
+if (!str_starts_with($uri, '/api')) {
+    require __DIR__ . '/../../public/index.html';
+} else {
+    http_response_code(404);
+    echo json_encode(['error' => 'API route not found']);
+}
