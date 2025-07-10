@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Navbar() {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -13,83 +12,59 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-      <Link className="navbar-brand" to="/">
-        StudentApp
-      </Link>
+    <nav className="bg-gray-800 text-white px-4 py-3 shadow-md">
+      
+      <div className="container mx-auto flex flex-wrap items-center justify-between">
+        <Link to="/" className="text-xl font-semibold text-white">
+          StudentApp
+        </Link>
 
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav ms-auto">
-          {isAuthenticated && user.role === 'admin' && (
+        <div className="flex flex-wrap items-center space-x-4">
+          {isAuthenticated && user.role === "admin" && (
             <>
-
-              <li className="nav-item">
-                <Link className="nav-link" to="/dashboard">
-                  Dashboard
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/students">
-                  Students
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/add-student">
-                  Add Student
-                </Link>
-              </li>
-
+              <Link to="/dashboard" className="hover:text-blue-300">
+                Dashboard
+              </Link>
+              <Link to="/students" className="hover:text-blue-300">
+                Students
+              </Link>
+              <Link to="/add-student" className="hover:text-blue-300">
+                Add Student
+              </Link>
             </>
           )}
+
           {isAuthenticated && (
             <>
-              <li className="nav-item">
-                <Link className="nav-link" to="/dashboard">
-                  Dashboard
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/profile">
-                  Profile
-                </Link>
-              </li>
-              <li className="nav-item">
-                <button
-                  className="btn btn-sm btn-outline-light ms-3"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
-              </li>
+              <Link to="/profile" className="hover:text-blue-300">
+                Profile
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="ml-2 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-sm transition"
+              >
+                Logout
+              </button>
             </>
           )}
-
 
           {!isAuthenticated && (
             <>
-              <li className="nav-item">
-                <Link className="btn btn-sm btn-outline-light ms-3" to="/register">
-                  Register
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="btn btn-sm btn-outline-light ms-3" to="/login">
-                  Login
-                </Link>
-              </li>
+              <Link
+                to="/register"
+                className="px-3 py-1 border border-white hover:bg-white hover:text-gray-800 rounded text-sm transition"
+              >
+                Register
+              </Link>
+              <Link
+                to="/login"
+                className="ml-2 px-3 py-1 border border-white hover:bg-white hover:text-gray-800 rounded text-sm transition"
+              >
+                Login
+              </Link>
             </>
-
           )}
-        </ul>
+        </div>
       </div>
     </nav>
   );
