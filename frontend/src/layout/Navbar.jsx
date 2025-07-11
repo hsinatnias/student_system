@@ -12,23 +12,23 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gray-800 text-white px-4 py-3 shadow-md">
+    <nav className="bg-gray-800 text-white py-4 shadow-md">
       
-      <div className="container mx-auto flex flex-wrap items-center justify-between">
-        <Link to="/" className="text-xl font-semibold text-white">
+      <div className="container mx-auto flex flex-wrap items-center justify-between px-4">
+        <Link to="/" className="no-underline text-2xl font-bold text-white hover:text-indigo-400 transition duration-200">
           StudentApp
         </Link>
 
-        <div className="flex flex-wrap items-center space-x-4">
+        <div className="flex flex-wrap items-center gap-4">
           {isAuthenticated && user.role === "admin" && (
             <>
-              <Link to="/dashboard" className="hover:text-blue-300">
+              <Link to="/dashboard" className="no-underline text-white border border-solid border-white px-3 py-1 hover:bg-white hover:text-gray-900 rounded text-sm transition">
                 Dashboard
               </Link>
-              <Link to="/students" className="hover:text-blue-300">
+              <Link to="/students" className="no-underline text-white border border-solid border-white px-3 py-1 hover:bg-white hover:text-gray-900 rounded text-sm transition">
                 Students
               </Link>
-              <Link to="/add-student" className="hover:text-blue-300">
+              <Link to="/add-student" className="no-underline text-white border border-solid border-white px-3 py-1 hover:bg-white hover:text-gray-900 rounded text-sm transition">
                 Add Student
               </Link>
             </>
@@ -36,12 +36,12 @@ export default function Navbar() {
 
           {isAuthenticated && (
             <>
-              <Link to="/profile" className="hover:text-blue-300">
+              <Link to="/profile" className="no-underline text-white border border-solid border-white px-3 py-1 hover:bg-white hover:text-gray-900 rounded text-sm transition">
                 Profile
               </Link>
               <button
                 onClick={handleLogout}
-                className="ml-2 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-sm transition"
+                className="px-3 py-1 bg-gray-600 hover:bg-white-700  hover:text-white text-white rounded text-sm transition"
               >
                 Logout
               </button>
@@ -52,13 +52,13 @@ export default function Navbar() {
             <>
               <Link
                 to="/register"
-                className="px-3 py-1 border border-white hover:bg-white hover:text-gray-800 rounded text-sm transition"
+                className="no-underline text-white border border-solid border-white px-3 py-1 hover:bg-white hover:text-gray-900 rounded text-sm transition"
               >
                 Register
               </Link>
               <Link
                 to="/login"
-                className="ml-2 px-3 py-1 border border-white hover:bg-white hover:text-gray-800 rounded text-sm transition"
+                className="no-underline text-white border border-solid border-white px-3 py-1 hover:bg-white hover:text-gray-900 rounded text-sm transition"
               >
                 Login
               </Link>

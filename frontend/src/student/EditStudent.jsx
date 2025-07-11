@@ -52,96 +52,100 @@ export default function EditStudent() {
   };
 
   return (
-
-    <div className="container mt-5">
-      <h2>Add Student</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="row">
-          <div className="mb-3 col-md-4">
-            <label>First Name</label>
+    <div className="max-w-4xl mx-auto mt-10 bg-white p-6 rounded shadow">
+      <h2 className="text-2xl font-semibold mb-6 text-center">Edit Student</h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
+  
+        {/* Name Fields */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label className="block mb-1 font-medium">First Name</label>
             <input
               name="first_name"
               type="text"
-              className="form-control"
+              className="w-full border rounded px-3 py-2"
               value={form.first_name}
               onChange={handleChange}
               required
             />
           </div>
-          <div className="mb-3 col-md-4">
-            <label>Middle Name</label>
+          <div>
+            <label className="block mb-1 font-medium">Middle Name</label>
             <input
               name="middle_name"
               type="text"
-              className="form-control"
+              className="w-full border rounded px-3 py-2"
               value={form.middle_name}
               onChange={handleChange}
             />
           </div>
-          <div className="mb-3 col-md-4">
-            <label>Last Name</label>
+          <div>
+            <label className="block mb-1 font-medium">Last Name</label>
             <input
               name="last_name"
               type="text"
-              className="form-control"
+              className="w-full border rounded px-3 py-2"
               value={form.last_name}
               onChange={handleChange}
               required
             />
           </div>
         </div>
-
-        <div className="mb-3">
-          <label>Email</label>
+  
+        {/* Email */}
+        <div>
+          <label className="block mb-1 font-medium">Email</label>
           <input
             name="email"
             type="email"
-            className="form-control"
+            className="w-full border rounded px-3 py-2"
             value={form.email}
             onChange={handleChange}
             required
           />
         </div>
-
-        <div className="mb-3">
-          <label>Password</label>
+  
+        {/* Password */}
+        <div>
+          <label className="block mb-1 font-medium">Password</label>
           <input
             name="password"
             type="password"
-            className="form-control"
+            className="w-full border rounded px-3 py-2"
             onChange={handleChange}
             required
           />
         </div>
-
-        <div className="row">
-          <div className="mb-3 col-md-4">
-            <label>Year of Admission (e.g., 2024)</label>
+  
+        {/* Year / DOB / Gender */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label className="block mb-1 font-medium">Year of Admission</label>
             <input
               name="year"
               type="number"
-              className="form-control"
+              className="w-full border rounded px-3 py-2"
               value={form.year}
               onChange={handleChange}
               required
             />
           </div>
-          <div className="mb-3 col-md-4">
-            <label>Date of Birth</label>
+          <div>
+            <label className="block mb-1 font-medium">Date of Birth</label>
             <input
               name="date_of_birth"
               type="date"
-              className="form-control"
+              className="w-full border rounded px-3 py-2"
               value={form.date_of_birth}
               onChange={handleChange}
               required
             />
           </div>
-          <div className="mb-3 col-md-4">
-            <label>Gender</label>
+          <div>
+            <label className="block mb-1 font-medium">Gender</label>
             <select
               name="gender"
-              className="form-select"
+              className="w-full border rounded px-3 py-2"
               value={form.gender}
               onChange={handleChange}
               required
@@ -153,13 +157,14 @@ export default function EditStudent() {
             </select>
           </div>
         </div>
-
-        <div className="row">
-          <div className="mb-3 col-md-6">
-            <label>Course</label>
+  
+        {/* Course / Department */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block mb-1 font-medium">Course</label>
             <select
               name="course_id"
-              className="form-select"
+              className="w-full border rounded px-3 py-2"
               value={form.course_id}
               onChange={handleChange}
               required
@@ -170,11 +175,11 @@ export default function EditStudent() {
               ))}
             </select>
           </div>
-          <div className="mb-3 col-md-6">
-            <label>Department</label>
+          <div>
+            <label className="block mb-1 font-medium">Department</label>
             <select
               name="department_id"
-              className="form-select"
+              className="w-full border rounded px-3 py-2"
               value={form.department_id}
               onChange={handleChange}
               required
@@ -185,17 +190,26 @@ export default function EditStudent() {
               ))}
             </select>
           </div>
-          <input
-            type="hidden"
-            name="enrollment_number"
-            value={form.enrollment_number}
-          />
         </div>
-
-        <div className="mt-4">
-          <button className="btn btn-success" type="submit">Submit</button>
+  
+        {/* Hidden Enrollment Number */}
+        <input
+          type="hidden"
+          name="enrollment_number"
+          value={form.enrollment_number}
+        />
+  
+        {/* Submit Button */}
+        <div className="text-center">
+          <button
+            type="submit"
+            className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded transition"
+          >
+            Submit
+          </button>
         </div>
       </form>
     </div>
   );
+  
 }

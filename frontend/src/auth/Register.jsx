@@ -61,157 +61,173 @@ export default function Register() {
     
 
     return (
-        <div className="container mt-5">
-            <h2>Add Student</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="row">
-                    <div className="mb-3 col-md-4">
-                        <label>First Name</label>
-                        <input
-                            name="first_name"
-                            type="text"
-                            className="form-control"
-                            value={form.first_name}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="mb-3 col-md-4">
-                        <label>Middle Name</label>
-                        <input
-                            name="middle_name"
-                            type="text"
-                            className="form-control"
-                            value={form.middle_name}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="mb-3 col-md-4">
-                        <label>Last Name</label>
-                        <input
-                            name="last_name"
-                            type="text"
-                            className="form-control"
-                            value={form.last_name}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+        <div className="min-h-screen flex justify-center items-center bg-gray-50 px-4 py-8">
+          <div className="w-full max-w-4xl bg-white p-8 rounded shadow-md">
+            <h2 className="text-2xl font-bold text-center mb-6">Add Student</h2>
+      
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block mb-1 font-semibold">First Name</label>
+                  <input
+                    name="first_name"
+                    type="text"
+                    className="w-full box-border border px-3 py-2 rounded"
+                    value={form.first_name}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
-
-                <div className="mb-3">
-                    <label>Email</label>
-                    <input
-                        name="email"
-                        type="email"
-                        className="form-control"
-                        value={form.email}
-                        onChange={handleChange}
-                        required
-                    />
+                <div>
+                  <label className="block mb-1 font-semibold">Middle Name</label>
+                  <input
+                    name="middle_name"
+                    type="text"
+                    className="w-full box-border border px-3 py-2 rounded"
+                    value={form.middle_name}
+                    onChange={handleChange}
+                  />
                 </div>
-
-                <div className="mb-3">
-                    <label>Password</label>
-                    <input
-                        name="password"
-                        type="password"
-                        className="form-control"
-                        value={form.password}
-                        onChange={handleChange}
-                        required
-                    />
+                <div>
+                  <label className="block mb-1 font-semibold">Last Name</label>
+                  <input
+                    name="last_name"
+                    type="text"
+                    className="w-full box-border border px-3 py-2 rounded"
+                    value={form.last_name}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
-                <div className="mb-3">
-                    <label>Confirm Password</label>
-                    <input
-                        name="confirm_password"
-                        type="password"
-                        className="form-control"
-                        value={form.confirm_password}
-                        onChange={handleChange}
-                        required
-                    />
+              </div>
+      
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block mb-1 font-semibold">Email</label>
+                  <input
+                    name="email"
+                    type="email"
+                    className="w-full box-border border px-3 py-2 rounded"
+                    value={form.email}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
-
-                <div className="row">
-                    <div className="mb-3 col-md-4">
-                        <label>Year of Admission (e.g., 2024)</label>
-                        <input
-                            name="year"
-                            type="number"
-                            className="form-control"
-                            value={form.year}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="mb-3 col-md-4">
-                        <label>Date of Birth</label>
-                        <input
-                            name="date_of_birth"
-                            type="date"
-                            className="form-control"
-                            value={form.date_of_birth}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="mb-3 col-md-4">
-                        <label>Gender</label>
-                        <select
-                            name="gender"
-                            className="form-select"
-                            value={form.gender}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value="">Select Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
+                <div>
+                  <label className="block mb-1 font-semibold">Year of Admission</label>
+                  <input
+                    name="year"
+                    type="number"
+                    className="w-full box-border border px-3 py-2 rounded"
+                    value={form.year}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
-
-                <div className="row">
-                    <div className="mb-3 col-md-6">
-                        <label>Course</label>
-                        <select
-                            name="course_id"
-                            className="form-select"
-                            value={form.course_id}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value="">Select Course</option>
-                            {courses.map(c => (
-                                <option key={c.id} value={c.id}>{c.name}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="mb-3 col-md-6">
-                        <label>Department</label>
-                        <select
-                            name="department_id"
-                            className="form-select"
-                            value={form.department_id}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value="">Select Department</option>
-                            {departments.map(d => (
-                                <option key={d.id} value={d.id}>{d.name}</option>
-                            ))}
-                        </select>
-                    </div>
+              </div>
+      
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block mb-1 font-semibold">Password</label>
+                  <input
+                    name="password"
+                    type="password"
+                    className="w-full box-border border px-3 py-2 rounded"
+                    value={form.password}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
-
-                <div className="mt-4">
-                    <button className="btn btn-success" type="submit">Submit</button>
+                <div>
+                  <label className="block mb-1 font-semibold">Confirm Password</label>
+                  <input
+                    name="confirm_password"
+                    type="password"
+                    className="w-full box-border border px-3 py-2 rounded"
+                    value={form.confirm_password}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
+              </div>
+      
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block mb-1 font-semibold">Date of Birth</label>
+                  <input
+                    name="date_of_birth"
+                    type="date"
+                    className="w-full box-border border px-3 py-2 rounded"
+                    value={form.date_of_birth}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 font-semibold">Gender</label>
+                  <select
+                    name="gender"
+                    className="w-full box-border border px-3 py-2 rounded"
+                    value={form.gender}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+      
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block mb-1 font-semibold">Course</label>
+                  <select
+                    name="course_id"
+                    className="w-full border px-3 py-2 rounded"
+                    value={form.course_id}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select Course</option>
+                    {courses.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block mb-1 font-semibold">Department</label>
+                  <select
+                    name="department_id"
+                    className="w-full border px-3 py-2 rounded"
+                    value={form.department_id}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select Department</option>
+                    {departments.map((d) => (
+                      <option key={d.id} value={d.id}>
+                        {d.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+      
+              <div className="text-center">
+                <button
+                  type="submit"
+                  className="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700 transition"
+                >
+                  Submit
+                </button>
+              </div>
             </form>
+          </div>
         </div>
-
-    );
+      );
+      
 }

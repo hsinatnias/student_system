@@ -13,20 +13,22 @@ export default function AdminDashboard() {
     }
 
     return (
-        <div className="container mt-5">
-            <h2>Admin Dashboard</h2>
-            <div className="row">
-                <Suspense fallback={<div>Loading card...</div>}>
-                <LazyCard 
-                        title="Courses"
-                        endpoint="/api/courses"
-                        renderItem={(c) => <li key={c.id} className="list-group-item">{c.name}</li>}
-                />
-                </Suspense>
-                
-            </div>
-
-
+        <div className="px-4 py-8 max-w-6xl mx-auto">
+          <h2 className="text-2xl font-semibold mb-6 text-gray-800">Admin Dashboard</h2>
+      
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Suspense fallback={<div>Loading card...</div>}>
+              <LazyCard
+                title="Courses"
+                endpoint="/api/courses"
+                renderItem={(c) => (
+                  <li key={c.id} className="px-4 py-2 border-b last:border-none text-gray-700">
+                    {c.name}
+                  </li>
+                )}
+              />
+            </Suspense>
+          </div>
         </div>
-    );
+      );
 }

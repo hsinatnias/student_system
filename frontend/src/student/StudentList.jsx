@@ -61,54 +61,58 @@ export default function StudentList() {
   }, []);
 
   return (
-    <div className="container mt-5">
-      <h2>Student List</h2>
-      {students.length === 0 && <p>No students found</p>}
-      <ul className="list-group">
+    <div className="max-w-5xl mx-auto mt-10 bg-white p-6 rounded shadow">
+      <h2 className="text-2xl font-semibold mb-6 text-center">Student List</h2>
+  
+      {students.length === 0 && (
+        <p className="text-center text-gray-500">No students found</p>
+      )}
+  
+      <ul className="space-y-4">
         {students.map(student => (
           <li
             key={student.id}
-            className="list-group-item d-flex justify-content-between align-items-center"
+            className="flex items-center justify-between bg-gray-100 p-4 rounded shadow-sm"
           >
             <div>
-              <strong>{student.first_name} {student.last_name}</strong><br />
-              <small>{student.email}</small>
+              <p className="font-semibold text-lg">{student.first_name} {student.last_name}</p>
+              <p className="text-sm text-gray-600">{student.email}</p>
             </div>
-
-            <div className="d-flex align-items-center gap-2">
-              <div className="dropdown me-2">
+  
+            <div className="flex items-center gap-2">
+              <div className="relative">
                 <button
-                  className={`btn btn-sm dropdown-toggle ${getBadgeClass(student.status)}`}
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                  className={`px-3 py-1 rounded text-sm font-medium border border-gray-300 bg-white hover:bg-gray-100 transition`}
                 >
                   {student.status}
                 </button>
-                <ul className="dropdown-menu">
-                  <li><button className="dropdown-item" onClick={() => updateStatus(student.id, 'approved')}>Approve</button></li>
-                  <li><button className="dropdown-item" onClick={() => updateStatus(student.id, 'pending')}>Set Pending</button></li>
-                  <li><button className="dropdown-item" onClick={() => updateStatus(student.id, 'denied')}>Deny</button></li>
-                </ul>
+                <div className="absolute top-full mt-2 left-0 bg-white border border-gray-300 rounded shadow text-sm z-10 hidden group-hover:block">
+                  <button className="block px-4 py-2 hover:bg-gray-100 w-full text-left"
+                    onClick={() => updateStatus(student.id, 'approved')}>Approve</button>
+                  <button className="block px-4 py-2 hover:bg-gray-100 w-full text-left"
+                    onClick={() => updateStatus(student.id, 'pending')}>Set Pending</button>
+                  <button className="block px-4 py-2 hover:bg-gray-100 w-full text-left"
+                    onClick={() => updateStatus(student.id, 'denied')}>Deny</button>
+                </div>
               </div>
-
-              <Link to={`/student/${student.id}`} className="btn btn-sm btn-info">
-                <i className="bi bi-eye"></i>
+  
+              <Link to={`/student/${student.id}`} className="px-2 py-1 text-blue-600 hover:underline text-sm">
+                View
               </Link>
-              <Link to={`/student/edit/${student.id}`} className="btn btn-sm btn-warning">
+              <Link to={`/student/edit/${student.id}`} className="px-2 py-1 text-yellow-600 hover:underline text-sm">
                 Edit
               </Link>
               <button
                 onClick={() => deleteStudent(student.id)}
-                className="btn btn-sm btn-danger"
+                className="px-2 py-1 text-red-600 hover:underline text-sm"
               >
                 Delete
               </button>
             </div>
           </li>
-
         ))}
       </ul>
     </div>
   );
+  
 }
