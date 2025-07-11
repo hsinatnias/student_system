@@ -21,8 +21,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Expose port 80 for built-in server
-EXPOSE 80
+# Expose port 8000 for built-in server
+EXPOSE 8000
 
 # Run PHP built-in server serving from /public
-CMD ["php", "-S", "0.0.0.0:80", "-t", "app/public"]
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "app/public"]

@@ -72,7 +72,7 @@ export default function AddStudent() {
             <input
               name="first_name"
               type="text"
-              className="w-full border rounded px-3 py-2"
+              className="w-full box-border border rounded px-3 py-2"
               value={form.first_name}
               onChange={handleChange}
               required
@@ -83,7 +83,7 @@ export default function AddStudent() {
             <input
               name="middle_name"
               type="text"
-              className="w-full border rounded px-3 py-2"
+              className="w-full box-border border rounded px-3 py-2"
               value={form.middle_name}
               onChange={handleChange}
             />
@@ -93,7 +93,7 @@ export default function AddStudent() {
             <input
               name="last_name"
               type="text"
-              className="w-full border rounded px-3 py-2"
+              className="w-full box-border border rounded px-3 py-2"
               value={form.last_name}
               onChange={handleChange}
               required
@@ -107,7 +107,7 @@ export default function AddStudent() {
           <input
             name="email"
             type="email"
-            className="w-full border rounded px-3 py-2"
+            className="w-full box-border border rounded px-3 py-2"
             value={form.email}
             onChange={handleChange}
             required
@@ -121,7 +121,7 @@ export default function AddStudent() {
             <input
               name="password"
               type="password"
-              className="w-full border rounded px-3 py-2"
+              className="w-full box-border border rounded px-3 py-2"
               value={form.password}
               onChange={handleChange}
               required
@@ -132,7 +132,7 @@ export default function AddStudent() {
             <input
               name="confirm_password"
               type="password"
-              className="w-full border rounded px-3 py-2"
+              className="w-full box-border border rounded px-3 py-2"
               value={form.confirm_password}
               onChange={handleChange}
               required
@@ -147,7 +147,7 @@ export default function AddStudent() {
             <input
               name="year"
               type="number"
-              className="w-full border rounded px-3 py-2"
+              className="w-full box-border border rounded px-3 py-2"
               value={form.year}
               onChange={handleChange}
               required
@@ -158,7 +158,7 @@ export default function AddStudent() {
             <input
               name="date_of_birth"
               type="date"
-              className="w-full border rounded px-3 py-2"
+              className="w-full box-border border rounded px-3 py-2"
               value={form.date_of_birth}
               onChange={handleChange}
               required
@@ -168,7 +168,7 @@ export default function AddStudent() {
             <label className="block mb-1 font-medium">Gender</label>
             <select
               name="gender"
-              className="w-full border rounded px-3 py-2"
+              className="w-full box-border border rounded px-3 py-2"
               value={form.gender}
               onChange={handleChange}
               required
@@ -187,7 +187,7 @@ export default function AddStudent() {
             <label className="block mb-1 font-medium">Course</label>
             <select
               name="course_id"
-              className="w-full border rounded px-3 py-2"
+              className="w-full box-border border rounded px-3 py-2"
               value={form.course_id}
               onChange={handleChange}
               required
@@ -202,7 +202,7 @@ export default function AddStudent() {
             <label className="block mb-1 font-medium">Department</label>
             <select
               name="department_id"
-              className="w-full border rounded px-3 py-2"
+              className="w-full box-border border rounded px-3 py-2"
               value={form.department_id}
               onChange={handleChange}
               required

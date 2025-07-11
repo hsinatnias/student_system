@@ -58,6 +58,7 @@ services:
     working_dir: /app
     volumes:
       - ./frontend:/app
+      - ./frontend/build:/var/www/html/frontend/build
     command: sh -c "npm install && npm run build"
     networks:
       - appnet

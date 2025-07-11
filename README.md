@@ -4,8 +4,8 @@
 A modular and testable **Student Management System** built with:
 
 * ✅ PHP (custom framework based on SOLID principles)
-* ✅ React (frontend)
-* ✅ Docker (isolated development environment)
+* ✅ React (frontend, Vite, UnoCSS)
+* ✅ Docker (isolated, reproducible environment)
 * ✅ PHPUnit (unit testing)
 
 ---
@@ -13,25 +13,29 @@ A modular and testable **Student Management System** built with:
 ## 🚀 Features
 
 ### ✅ Backend (PHP)
-
 * Modular structure using PSR-4 autoloading
 * Follows SOLID principles
-* Custom dependency injection container
-* API routes (e.g., `/api/student`, `/api/student/dashboard`)
+* Custom dependency injection container with service providers
+* API routes (e.g., `/api/student`, `/api/auth/login`)
+* Repository and Service layers for business logic
+* JWT-based authentication & role-based access
 * PDO for database interaction
 * Environment config via `.env`
+* PHPUnit test coverage
 
-### ✅ Frontend (React)
-
-* React + React Router
-* Axios for HTTP requests to API
-* Home page fetching student data from backend
+### ✅ Frontend (React + UnoCSS)
+* Vite-powered modern React build
+* UnoCSS (Wind3 preset) — utility-first, atomic CSS
+* React Router for SPA navigation
+* Axios for API requests
+* JWT handled with React Context
+* Fully responsive & clean design
 
 ### ✅ DevOps
-
-* Docker Compose setup for PHP + MySQL + Nginx + phpMyAdmin
-* Separate React development (`frontend/`) with build copied to `public/`
-* CI-ready structure (e.g., GitHub Actions)
+* Docker Compose setup for PHP + MySQL + Nginx + phpMyAdmin + Node
+* Nginx serves React from frontend/build and proxies API to PHP
+* CI-ready: GitHub Actions for PHPUnit
+* Scripts for easy local build & deployment
 
 ---
 
@@ -40,23 +44,29 @@ A modular and testable **Student Management System** built with:
 ```
 student_system/
 ├── app/
-│   ├── public/                # PHP entry point (index.php)
-│   ├── src/                  # Application source
-│   │   └── Student/          # Student module (Controllers, Models, etc.)
-│   └── tests/                # PHPUnit test cases
-├── docker/                   # Dockerfiles and nginx config
+│   ├── bootstrap.php              # DI setup, env loader
+│   ├── routes.php                 # Route map
+│   ├── public/                    # PHP entry point (index.php)
+│   └── src/                       # All code, organized by module (Auth, Student, etc)
+│       ├── Auth/
+│       ├── Student/
+│       ├── Core/
+│       ├── Database/
+│       └── Providers/
+├── docker/                        # Dockerfiles & configs
 │   ├── nginx/
 │   └── php/
-├── frontend/                 # React frontend (React Router + Axios)
+├── frontend/                      # React frontend (Vite + UnoCSS)
 │   ├── src/
-│   ├── public/
-│   └── build/                # Production build
-├── public/                   # Served by Nginx (React + API entry)
-├── vendor/                   # Composer dependencies
-├── .env                      # Environment config (PHP)
-├── composer.json             # PSR-4 autoloading config
-├── docker-compose.yml        # Docker environment
-└── phpunit.xml               # PHPUnit config
+│   ├── uno.config.ts
+│   ├── vite.config.js
+│   └── build/
+├── tests/                         # PHPUnit tests
+├── docker-compose.yml
+├── composer.json
+├── package.json
+├── phpunit.xml
+└── README.md
 ```
 
 ---
@@ -68,13 +78,13 @@ student_system/
 ```bash
 git clone <repo-url>
 cd student_system
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 ### 2. Install PHP Dependencies
 
 ```bash
-docker-compose exec app composer install
+docker compose exec app composer install
 ```
 
 ### 3. React Setup
@@ -83,10 +93,10 @@ docker-compose exec app composer install
 cd frontend
 npm install
 npm run build
-cp -R build/* ../public/  # Copies built React app into PHP public folder
 ```
+*The build will be mounted to Nginx and served automatically.*
 
-### 4. Access App
+### 4. Access the App
 
 * React frontend: [http://localhost:8080/](http://localhost:8080/)
 * API endpoint: [http://localhost:8080/api/student](http://localhost:8080/api/student)
@@ -98,48 +108,55 @@ cp -R build/* ../public/  # Copies built React app into PHP public folder
 
 ```
        +---------------------+              +------------------+
-       |     React Frontend |  <-------->  |     API (PHP)    |
-       | (Served from Nginx)|              |   (index.php)    |
+       |     React Frontend  |  <-------->  |     API (PHP)    |
+       | (Served from Nginx) |              |   (index.php)    |
        +---------------------+              +------------------+
                  |                                  |
                  v                                  v
-         /public/index.html                /public/index.php
+         /frontend/build/index.html         /app/public/index.php
                                                |
                                                v
-                                     Routes -> Controllers
+                                    routes.php → Controllers
                                                |
                                                v
-                                    Repositories -> Database
+                                 Repositories/Services → Database
 ```
 
 ---
 
 ## ✅ Checklist Before Deployment
 
-* [x] React build copied to `public`
-* [x] `.env` file with production DB credentials
+* [x] React build available in `frontend/build`
+* [x] `.env` file with DB credentials present
 * [x] Docker containers run without error
 * [x] PHPUnit tests pass
+* [x] CI pipeline (GitHub Actions) configured
 * [ ] Enable HTTPS in production Nginx config
-* [x] CI pipeline (e.g., GitHub Actions) configured for tests
-* [ ] CORS config if API and frontend are separated
+* [ ] Configure CORS if API/frontend separated
 
 ---
-## ✅ Work In Progress
+
+## 🚧 Work In Progress
 
 * [ ] Admin dashboard
 * [ ] Faculty dashboard
 * [ ] Course and Faculty Management modules
-* [ ] PHPUnit Tests for newly added API module
+* [ ] Additional test coverage
+* [ ] Production HTTPS setup
+
 ---
 
 ## 👥 Contributors
 
 * Anish (Lead Developer)
 
-
 ---
 
 ## 📜 License
 
 MIT
+
+---
+
+> _This project is on a short break — development will resume soon.  
+> Special thanks to ChatGPT for architectural and code review assistance._
